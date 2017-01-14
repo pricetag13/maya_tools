@@ -1,5 +1,5 @@
 """
-This is my Script to automate the process of creating 2.5d cards for my production pipeline
+This is my tool to automate the process of creating 2.5d cards for my production pipeline
 """
 
 import maya.cmds as cmds
