@@ -1,12 +1,12 @@
 """
-this is stuff to test
+This is my Script to automate the process of creating 2.5d cards for my production pipeline
 """
 
 import maya.cmds as cmds
 import os
 import json
 
-ROOT_DIR = "C:\dev\cardz"
+ROOT_DIR = "C:\dev\maya_tools\cardz"
 
 def set_initial_state():
     with open(ROOT_DIR + 'cardz_config.txt', 'r') as f:
