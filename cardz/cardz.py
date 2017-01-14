@@ -6,7 +6,8 @@ import maya.cmds as cmds
 import os
 import json
 
-ROOT_DIR = "C:\dev\maya_tools\cardz"
+ROOT_DIR = "C:/dev/maya_tools/cardz/"
+
 
 def set_initial_state():
     with open(ROOT_DIR + 'cardz_config.txt', 'r') as f:
