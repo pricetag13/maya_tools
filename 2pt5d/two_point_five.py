@@ -82,7 +82,7 @@ def build_gui():
     cmds.rowColumnLayout(numberOfColumns=1)
 
     for function in function_list:
-        cmds.button(function[0], label=function[0], width=350, height=60, command=lambda maya_false: funtion[1])
+        cmds.button(function[0], label=function[0], width=350, height=60, command=lambda maya_false: function[1])
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
@@ -90,12 +90,6 @@ def build_gui():
 
 
 def main():
-    build_gui()
-
-main()
-
-
-def main():
-    build_gui()
+    print_stuff()
 
 main()
