@@ -36,6 +36,11 @@ def constrain_gamejoints(bind_joints):
         cmds.parentConstraint(x, y)
         cmds.scaleConstraint(x, y)
 
+# create_game_joints()
+# parent_game_joints()
+
+# ////////////////////////////
+
 
 def get_controls():
     excluded_ctrls = ['worldA_ctrl', 'worldB_ctrl', 'root_ctrl']
@@ -52,14 +57,17 @@ def get_controls():
             controls.append(_joint)
 
 
-# create_game_joints()
-# parent_game_joints()
-
-
 def print_stuff():
     print 'printing some stuff'
 
-function_list = [('print_stuff', print_stuff)]
+
+def lock_controls_2d():
+    print 'locking attributes to restrict rig movement to two dimensions'
+
+
+function_list = [('print_stuff', print_stuff),
+                 ('lock_controls_2d', lock_controls_2d)
+                 ]
 
 
 def build_gui():
@@ -72,7 +80,7 @@ def build_gui():
         cmds.windowPref("2pt5d_win", removeAll=True)
 
     # window preferences
-    win_main = cmds.window("2pt5d_win", title="two_point_five_rig", sizeable=True, width=350, height=100)
+    win_main = cmds.window("2pt5d_win", title="two_point_five_rig", sizeable=True, width=250, height=100)
 
     # window layout
     cmds.frameLayout(label='2.5D rigging Workflow', collapsable=True, parent=win_main)
@@ -80,10 +88,10 @@ def build_gui():
 
     # for function in function_list:
     #     cmds.button(function[0], label=function[0], width=350, height=60, command=lambda maya_false: function[1])
-    cmds.button('bill', label='fred')
+    # cmds.button('bill', label='fred')
     for function in function_list:
         print 'function = ', function
-        cmds.button('george', label=function[0])
+        cmds.button(function[0], label=function[0], width=250, height=60, command=lambda maya_false: function[1])
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
