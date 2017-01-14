@@ -75,7 +75,7 @@ def build_gui():
         cmds.windowPref("2pt5d_win", removeAll=True)
 
     # window preferences
-    win_main = cmds.window("2pt5d_win", title="2pt5d", sizeable=True, width=350, height=100)
+    win_main = cmds.window("2pt5d_win", title="two_point_five_rig", sizeable=True, width=350, height=100)
 
     # window layout
     cmds.frameLayout(label='2.5D rigging Workflow', collapsable=True, parent=win_main)
