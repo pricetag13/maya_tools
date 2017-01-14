@@ -1,3 +1,7 @@
+"""
+this is stuff to test
+"""
+
 import maya.cmds as cmds
 import os
 import json
