@@ -52,17 +52,14 @@ def get_controls():
             controls.append(_joint)
 
 
-create_game_joints()
-parent_game_joints()
+# create_game_joints()
+# parent_game_joints()
 
 
 def print_stuff():
     print 'printing some stuff'
 
-function_list = [('create_game_joints', create_game_joints()),
-                 ('get_controls', get_controls()),
-                 ('print_stuff', print_stuff())
-                 ]
+function_list = [('print_stuff', print_stuff)]
 
 
 def build_gui():
@@ -81,8 +78,12 @@ def build_gui():
     cmds.frameLayout(label='2.5D rigging Workflow', collapsable=True, parent=win_main)
     cmds.rowColumnLayout(numberOfColumns=1)
 
+    # for function in function_list:
+    #     cmds.button(function[0], label=function[0], width=350, height=60, command=lambda maya_false: function[1])
+    cmds.button('bill', label='fred')
     for function in function_list:
-        cmds.button(function[0], label=function[0], width=350, height=60, command=lambda maya_false: function[1])
+        print 'function = ', function
+        cmds.button('george', label=function[0])
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
@@ -90,6 +91,6 @@ def build_gui():
 
 
 def main():
-    print_stuff()
+    build_gui()
 
 main()
