@@ -47,14 +47,9 @@ def get_controls():
 
     all_joints = cmds.ls(type='joint')
 
-    my_controls = [control for control in all_joints if '_ctrl' in control and control not in excluded_ctrls]
-    print 'my_controls = ', my_controls
+    all_controls = [control_ for control_ in all_joints if '_ctrl' in control_ and control_ not in excluded_ctrls]
 
-    controls = []
-
-    for _joint in all_joints:
-        if '_ctrl' in _joint:
-            controls.append(_joint)
+    return all_controls
 
 
 def print_stuff():
@@ -62,12 +57,28 @@ def print_stuff():
 
 
 def lock_controls_2d():
-    print 'locking attributes to restrict rig movement to two dimensions'
+    for control_ in get_controls():
+        myVal = cmds.xform(control_, query=True, rotation=True, worldSpace=True)
+        if 85.0 <= myVal[0] <= 95.0:
+            cmds.setAttr(control_ + '.tz', lock=True)
+            cmds.setAttr(control_ + '.rx', lock=True)
+            cmds.setAttr(control_ + '.rz', lock=True)
 
+        else:
+            cmds.setAttr(control_ + '.tz', lock=True)
+            cmds.setAttr(control_ + '.rx', lock=True)
+            cmds.setAttr(control_ + '.ry', lock=True)
+        
+
+
+#/////////////////////////////////////////////////////////
 
 function_list = [('print_stuff', print_stuff),
                  ('lock_controls_2d', lock_controls_2d)
                  ]
+
+
+#//////////////////////////////////////////////////////////////
 
 
 def build_gui():
