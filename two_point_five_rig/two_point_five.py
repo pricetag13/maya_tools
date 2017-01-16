@@ -1,5 +1,11 @@
 import maya.cmds as cmds
 
+
+def print_stuff():
+    print 'printing some stuff'
+
+# ////////////////////////////////////////////////////////////////
+
 game_joints = []
 
 
@@ -42,42 +48,59 @@ def constrain_gamejoints(bind_joints):
 # ////////////////////////////
 
 
+def get_geo():
+    all_geometry = cmds.ls(geometry=True)
+    all_poly_meshes = cmds.filterExpand(all_geometry, selectionMask=12)
+    return all_poly_meshes
+
+
+def get_def_joints():
+    all_joints = cmds.ls(type='joint')
+    def_joints = [joint_ for joint_ in all_joints if 'Def' in joint_]
+    return def_joints
+
+
 def get_controls():
     excluded_ctrls = ['worldA_ctrl', 'worldB_ctrl', 'root_ctrl']
-
     all_joints = cmds.ls(type='joint')
-
     all_controls = [control_ for control_ in all_joints if '_ctrl' in control_ and control_ not in excluded_ctrls]
-
     return all_controls
 
 
-def print_stuff():
-    print 'printing some stuff'
+def bind_actor():
+    cmds.select(get_def_joints())
+    cmds.select(get_geo(), add=True)
+    cmds.SmoothBindSkin()
+    cmds.select(clear=True)
+
+
+# ////////////////////////////////////////
 
 
 def lock_controls_2d():
     for control_ in get_controls():
-        myVal = cmds.xform(control_, query=True, rotation=True, worldSpace=True)
-        if 85.0 <= myVal[0] <= 95.0:
+        world_rotate_xform = cmds.xform(control_, query=True, rotation=True, worldSpace=True)
+        if 85.0 <= world_rotate_xform[0] <= 95.0:
             cmds.setAttr(control_ + '.tz', lock=True)
             cmds.setAttr(control_ + '.rx', lock=True)
             cmds.setAttr(control_ + '.rz', lock=True)
+            cmds.setAttr(control_ + '.overrideEnabled', 1)
+            cmds.setAttr(control_ + '.overrideColor', 6)
 
         else:
             cmds.setAttr(control_ + '.tz', lock=True)
             cmds.setAttr(control_ + '.rx', lock=True)
             cmds.setAttr(control_ + '.ry', lock=True)
+            cmds.setAttr(control_ + '.overrideEnabled', 1)
+            cmds.setAttr(control_ + '.overrideColor', 17)
         
-
 
 #/////////////////////////////////////////////////////////
 
-function_list = [('print_stuff', print_stuff),
-                 ('lock_controls_2d', lock_controls_2d)
+function_list = [('Print Stuff', print_stuff),
+                 ('Lock Controls 2D', lock_controls_2d),
+                 ('Bind Actor', bind_actor)
                  ]
-
-
 #//////////////////////////////////////////////////////////////
 
 
@@ -97,12 +120,9 @@ def build_gui():
     cmds.frameLayout(label='2.5D rigging Workflow', collapsable=True, parent=win_main)
     cmds.rowColumnLayout(numberOfColumns=1)
 
-    # for function in function_list:
-    #     cmds.button(function[0], label=function[0], width=350, height=60, command=lambda maya_false: function[1])
-    # cmds.button('bill', label='fred')
     for function in function_list:
         print 'function = ', function
-        cmds.button(function[0], label=function[0], width=250, height=60, command=lambda maya_false: function[1])
+        cmds.button(function[0], label=function[0], width=250, height=60, command=lambda maya_false: function[1]())
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
