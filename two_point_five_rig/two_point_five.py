@@ -1,63 +1,36 @@
 import maya.cmds as cmds
-
-
-def print_stuff():
-    print 'printing some stuff'
-
-# ////////////////////////////////////////////////////////////////
-
-game_joints = []
-
-
-def create_game_joints():
-    skinned_geo = cmds.ls(selection=True)
-    geo_relatives = cmds.listRelatives(skinned_geo)
-    for relative in geo_relatives:
-        my_connections = cmds.listConnections(relative)
-        skin_cluster_found = [s for s in my_connections if 'skinCluster' in s]
-
-    if skin_cluster_found:
-        found_skin_cluster = skin_cluster_found[0]
-        found_skin_cluster = found_skin_cluster[:-3]
-
-    bind_joints = cmds.skinCluster(found_skin_cluster, query=True, inf=True)
-
-    for bound_joint in bind_joints:
-        game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='game_' + bound_joint)
-        cmds.parent(game_joint, world=True)
-        game_joints.append(game_joint)
-    cmds.select(clear=True)
-    constrain_gamejoints(bind_joints)
-
-
-def parent_game_joints():
-    cmds.joint(name='game_root_jnt', p=(0, 0, 0))
-    for game_joint in game_joints:
-        cmds.parent(game_joint, 'game_root_jnt')
-
-
-def constrain_gamejoints(bind_joints):
-    constrain_joints = zip(bind_joints, game_joints)
-    for x, y in constrain_joints:
-        cmds.parentConstraint(x, y)
-        cmds.scaleConstraint(x, y)
-
-# create_game_joints()
-# parent_game_joints()
-
-# ////////////////////////////
+from functools import partial
 
 
 def get_geo():
-    all_geometry = cmds.ls(geometry=True)
-    all_poly_meshes = cmds.filterExpand(all_geometry, selectionMask=12)
-    return all_poly_meshes
+    all_transforms = cmds.ls(type='transform')
+    all_poly_meshes = cmds.filterExpand(all_transforms, selectionMask=12)
+    return all_poly_meshes[0]
 
 
 def get_def_joints():
     all_joints = cmds.ls(type='joint')
     def_joints = [joint_ for joint_ in all_joints if 'Def' in joint_]
     return def_joints
+
+
+def get_skin_cluster():
+    found_skin_cluster = ''
+    for relative in cmds.listRelatives(get_geo()):
+        connections = cmds.listConnections(relative)
+        skin_cluster_found = [s for s in connections if 'skinCluster' in s]
+
+    if skin_cluster_found:
+        found_skin_cluster = skin_cluster_found[0]
+        found_skin_cluster = found_skin_cluster[:-3]
+
+    return found_skin_cluster
+
+
+def get_bind_joints():
+    if get_skin_cluster():
+        bind_joints = cmds.skinCluster(get_skin_cluster(), query=True, inf=True)
+        return bind_joints
 
 
 def get_controls():
@@ -67,17 +40,19 @@ def get_controls():
     return all_controls
 
 
-def bind_actor():
+def bind_actor(*args):
     cmds.select(get_def_joints())
     cmds.select(get_geo(), add=True)
     cmds.SmoothBindSkin()
+    # cmds.skinCluster(maximumInfluences=2, obeyMaxInfluences=False)
     cmds.select(clear=True)
 
 
-# ////////////////////////////////////////
+def clean_up_weights():
+    cmds.skinCluster(get_skin_cluster(), )
 
 
-def lock_controls_2d():
+def lock_controls_2d(*args):
     for control_ in get_controls():
         world_rotate_xform = cmds.xform(control_, query=True, rotation=True, worldSpace=True)
         if 85.0 <= world_rotate_xform[0] <= 95.0:
@@ -93,20 +68,35 @@ def lock_controls_2d():
             cmds.setAttr(control_ + '.ry', lock=True)
             cmds.setAttr(control_ + '.overrideEnabled', 1)
             cmds.setAttr(control_ + '.overrideColor', 17)
-        
 
-#/////////////////////////////////////////////////////////
 
-function_list = [('Print Stuff', print_stuff),
-                 ('Lock Controls 2D', lock_controls_2d),
-                 ('Bind Actor', bind_actor)
+def create_game_skeleton(*args):
+    game_joints = []
+    game_root_jnt = cmds.joint(name='game_root_jnt', p=(0, 0, 0))
+
+    for bound_joint in get_bind_joints():
+        game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='game_' + bound_joint)
+        cmds.parent(game_joint, world=True)
+        game_joints.append(game_joint)
+
+    constrain_joints = zip(get_bind_joints(), game_joints)
+
+    for x, y in constrain_joints:
+        cmds.parentConstraint(x, y)
+        cmds.scaleConstraint(x, y)
+
+    for game_joint in game_joints:
+        cmds.parent(game_joint, game_root_jnt)
+
+
+function_list = [('Lock Controls 2D', lock_controls_2d),
+                 ('Bind Actor', bind_actor),
+                 ('Create Game Skeleton', create_game_skeleton)
                  ]
-#//////////////////////////////////////////////////////////////
 
 
 def build_gui():
     window_pos = [0, 0]
-
     # If window already exists, deletes all preferences and kills it
     if cmds.window("2pt5d_win", exists=True):
         window_pos = cmds.window("2pt5d_win", q=1, topLeftCorner=True)
@@ -114,19 +104,22 @@ def build_gui():
         cmds.windowPref("2pt5d_win", removeAll=True)
 
     # window preferences
-    win_main = cmds.window("2pt5d_win", title="two_point_five_rig", sizeable=True, width=250, height=100)
+    win_main = cmds.window("2pt5d_win", title="2.5D", sizeable=True, width=250, height=100)
 
     # window layout
-    cmds.frameLayout(label='2.5D rigging Workflow', collapsable=True, parent=win_main)
+    cmds.frameLayout(label='rigging Workflow', collapsable=True, parent=win_main)
     cmds.rowColumnLayout(numberOfColumns=1)
 
-    for function in function_list:
-        print 'function = ', function
-        cmds.button(function[0], label=function[0], width=250, height=60, command=lambda maya_false: function[1]())
+    count = 0
+
+    for label, function in function_list:
+        cmds.button(label + '_button', h=60, w=250, label=label, command=partial(function))
+        count += 1
+
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
-    cmds.window(win_main, e=1, topLeftCorner=window_pos, height=300, width=250)
+    cmds.window(win_main, e=1, topLeftCorner=window_pos, height=count*60, width=250)
 
 
 def main():
