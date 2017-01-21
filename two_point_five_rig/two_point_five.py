@@ -94,8 +94,8 @@ def create_game_skeleton(*args):
         cmds.rename(game_joint, stripped_game_joint)
 
 
-def export_weight_maps(*args):
-    print ''
+def export_skin_weights(*args):
+    cmds.deformerWeights("clusterWeights.xml", ex=True, deformer="testCluster")
 
 
 def unbind_geo(*args):
@@ -114,9 +114,6 @@ def unbind_geo(*args):
 #         cmds.parent(game_joint, game_root_jnt)
 
 
-def poop(*args):
-    print'PPPPPPPPPPPOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPP!!!!!!!!!!!!!!!!!!!!!!'
-
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Functions included in the GUI
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +121,7 @@ def poop(*args):
 function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('Bind Actor', bind_actor),
                  ('Create Game Skeleton', create_game_skeleton),
-                 ('export_weight_maps', export_weight_maps)
+                 ('export_skin_weights', export_skin_weights)
                  ]
 
 
