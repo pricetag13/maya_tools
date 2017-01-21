@@ -1,6 +1,10 @@
 import maya.cmds as cmds
 from functools import partial
 
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# Return lists of components required by various steps in the workflow
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 def get_geo():
     all_transforms = cmds.ls(type='transform')
@@ -12,6 +16,12 @@ def get_def_joints():
     all_joints = cmds.ls(type='joint')
     def_joints = [joint_ for joint_ in all_joints if 'Def' in joint_]
     return def_joints
+
+
+def get_bind_joints():
+    if get_skin_cluster():
+        bind_joints = cmds.skinCluster(get_skin_cluster(), query=True, inf=True)
+        return bind_joints
 
 
 def get_skin_cluster():
@@ -27,17 +37,15 @@ def get_skin_cluster():
     return found_skin_cluster
 
 
-def get_bind_joints():
-    if get_skin_cluster():
-        bind_joints = cmds.skinCluster(get_skin_cluster(), query=True, inf=True)
-        return bind_joints
-
-
 def get_controls():
     excluded_ctrls = ['worldA_ctrl', 'worldB_ctrl', 'root_ctrl']
     all_joints = cmds.ls(type='joint')
     all_controls = [control_ for control_ in all_joints if '_ctrl' in control_ and control_ not in excluded_ctrls]
     return all_controls
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# Main steps in 2.5D workflow
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 def bind_actor(*args):
@@ -48,7 +56,7 @@ def bind_actor(*args):
     cmds.select(clear=True)
 
 
-def clean_up_weights():
+def clean_up_weights(*args):
     cmds.skinCluster(get_skin_cluster(), )
 
 
@@ -71,14 +79,20 @@ def lock_controls_2d(*args):
 
 
 def create_game_skeleton(*args):
+    print '!!!!!!!!!!!!!!!!!!!!!!!!! running'
     game_joints = []
-    game_root_jnt = cmds.joint(name='game_root_jnt', p=(0, 0, 0))
 
     for bound_joint in get_bind_joints():
-        game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='game_' + bound_joint)
+        game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='temp_name_' + bound_joint)
         cmds.parent(game_joint, world=True)
         game_joints.append(game_joint)
 
+    for game_joint in game_joints:
+        game_joint.replace('temp_name_', '')
+
+
+def create_game_skeleton(game_joints):
+    game_root_jnt = cmds.joint(name='game_root_jnt', p=(0, 0, 0))
     constrain_joints = zip(get_bind_joints(), game_joints)
 
     for x, y in constrain_joints:
@@ -89,10 +103,19 @@ def create_game_skeleton(*args):
         cmds.parent(game_joint, game_root_jnt)
 
 
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# Functions included in the GUI
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('Bind Actor', bind_actor),
                  ('Create Game Skeleton', create_game_skeleton)
                  ]
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# 2.5D workflow GUI
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 def build_gui():
