@@ -1,5 +1,6 @@
 import maya.cmds as cmds
 from functools import partial
+import re
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Return lists of components required by various steps in the workflow
@@ -79,29 +80,42 @@ def lock_controls_2d(*args):
 
 
 def create_game_skeleton(*args):
-    print '!!!!!!!!!!!!!!!!!!!!!!!!! running'
-    game_joints = []
+
+    game_root_jnt = cmds.joint(name='game_root_jnt', p=(0, 0, 0))
+    prefixed_game_joints = []
 
     for bound_joint in get_bind_joints():
         game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='temp_name_' + bound_joint)
-        cmds.parent(game_joint, world=True)
-        game_joints.append(game_joint)
-
-    for game_joint in game_joints:
-        game_joint.replace('temp_name_', '')
-
-
-def create_game_skeleton(game_joints):
-    game_root_jnt = cmds.joint(name='game_root_jnt', p=(0, 0, 0))
-    constrain_joints = zip(get_bind_joints(), game_joints)
-
-    for x, y in constrain_joints:
-        cmds.parentConstraint(x, y)
-        cmds.scaleConstraint(x, y)
-
-    for game_joint in game_joints:
         cmds.parent(game_joint, game_root_jnt)
+        prefixed_game_joints.append(game_joint[0])
 
+    for game_joint in prefixed_game_joints:
+        stripped_game_joint = game_joint[10:]
+        cmds.rename(game_joint, stripped_game_joint)
+
+
+def export_weight_maps(*args):
+    print ''
+
+
+def unbind_geo(*args):
+    cmds.skinCluster(get_geo(), edit=True, unbind=True)
+
+
+# def create_game_skeleton(game_joints):
+#
+#     constrain_joints = zip(get_bind_joints(), game_joints)
+#
+#     for x, y in constrain_joints:
+#         cmds.parentConstraint(x, y)
+#         cmds.scaleConstraint(x, y)
+#
+#     for game_joint in game_joints:
+#         cmds.parent(game_joint, game_root_jnt)
+
+
+def poop(*args):
+    print'PPPPPPPPPPPOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPP!!!!!!!!!!!!!!!!!!!!!!'
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Functions included in the GUI
@@ -109,7 +123,8 @@ def create_game_skeleton(game_joints):
 
 function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('Bind Actor', bind_actor),
-                 ('Create Game Skeleton', create_game_skeleton)
+                 ('Create Game Skeleton', create_game_skeleton),
+                 ('export_weight_maps', export_weight_maps)
                  ]
 
 
