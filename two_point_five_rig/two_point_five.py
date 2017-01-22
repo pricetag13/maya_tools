@@ -14,6 +14,11 @@ def get_geo():
     return all_poly_meshes[0]
 
 
+def get_actor_main_group():
+    actor_main_group = cmds.listRelatives(get_geo(), parent=True)
+    return actor_main_group
+
+
 def get_def_joints():
     all_joints = cmds.ls(type='joint')
     def_joints = [joint_ for joint_ in all_joints if 'Def' in joint_]
@@ -24,6 +29,16 @@ def get_bind_joints():
     if get_skin_cluster():
         bind_joints = cmds.skinCluster(get_skin_cluster(), query=True, inf=True)
         return bind_joints
+
+
+def get_game_joints():
+    game_joints = cmds.listRelatives('game_root_jnt', children=True)
+    return game_joints
+
+
+def get_game_joints_full_path():
+    game_joints = cmds.listRelatives('game_root_jnt', children=True, fullPath=True)
+    return game_joints
 
 
 def get_skin_cluster():
@@ -51,6 +66,7 @@ def get_current_folder():
     current_folder = os.path.dirname(current_path[0])
     return current_folder
 
+
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Main steps in 2.5D workflow
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +76,6 @@ def bind_actor(*args):
     cmds.select(get_def_joints())
     cmds.select(get_geo(), add=True)
     cmds.SmoothBindSkin()
-    # cmds.skinCluster(maximumInfluences=2, obeyMaxInfluences=False)
     cmds.select(clear=True)
 
 
@@ -88,17 +103,13 @@ def lock_controls_2d(*args):
 
 def create_game_skeleton(*args):
 
-    game_root_jnt = cmds.joint(name='game_root_jnt', p=(0, 0, 0))
-    prefixed_game_joints = []
+    game_root_jnt = cmds.joint(name='game_root_jnt', position=(0, 0, 0))
+    cmds.group(game_root_jnt, name='game_skeleton')
+    cmds.parent('game_skeleton', get_actor_main_group())
 
     for bound_joint in get_bind_joints():
-        game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='temp_name_' + bound_joint)
+        game_joint = cmds.duplicate(bound_joint, parentOnly=True, name='game_' + bound_joint)
         cmds.parent(game_joint, game_root_jnt)
-        prefixed_game_joints.append(game_joint[0])
-
-    for game_joint in prefixed_game_joints:
-        stripped_game_joint = game_joint[10:]
-        cmds.rename(game_joint, stripped_game_joint)
 
 
 def export_skin_weights(*args):
@@ -110,6 +121,31 @@ def export_skin_weights(*args):
 
 def unbind_geo(*args):
     cmds.skinCluster(get_geo(), edit=True, unbind=True)
+
+
+def bind_to_game_joints(*args):
+    cmds.select(get_game_joints())
+    cmds.select(get_geo(), add=True)
+    cmds.SmoothBindSkin()
+    cmds.select(clear=True)
+
+
+def import_skin_weights(*args):
+
+    for game_joint in get_game_joints():
+        stripped_game_joint = game_joint[5:]
+        cmds.rename(game_joint, stripped_game_joint)
+
+    weight_path = os.path.join(get_current_folder(), 'weights')
+    cmds.deformerWeights(get_geo() + '_weights.xml', path=weight_path, im=True, deformer=get_skin_cluster())
+
+    rename_joints = zip(get_game_joints_full_path(), get_game_joints())
+    for fullpath, shortpath in rename_joints:
+        cmds.rename(fullpath, 'game_' + shortpath)
+
+    # for game_joint in get_game_joints_full_path():
+    #     prefixed_game_joint = 'game_' + game_joint
+    #     cmds.rename(game_joint, prefixed_game_joint)
 
 
 # def create_game_skeleton(game_joints):
@@ -131,7 +167,10 @@ def unbind_geo(*args):
 function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('Bind Actor', bind_actor),
                  ('Create Game Skeleton', create_game_skeleton),
-                 ('export_skin_weights', export_skin_weights)
+                 ('export_skin_weights', export_skin_weights),
+                 ('unbind_geo', unbind_geo),
+                 ('bind_to_game_joints', bind_to_game_joints),
+                 ('import_skin_weights', import_skin_weights)
                  ]
 
 
