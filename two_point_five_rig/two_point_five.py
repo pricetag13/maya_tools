@@ -1,6 +1,7 @@
 import maya.cmds as cmds
 from functools import partial
 import re
+import os
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Return lists of components required by various steps in the workflow
@@ -34,7 +35,6 @@ def get_skin_cluster():
     if skin_cluster_found:
         found_skin_cluster = skin_cluster_found[0]
         found_skin_cluster = found_skin_cluster[:-3]
-
     return found_skin_cluster
 
 
@@ -43,6 +43,13 @@ def get_controls():
     all_joints = cmds.ls(type='joint')
     all_controls = [control_ for control_ in all_joints if '_ctrl' in control_ and control_ not in excluded_ctrls]
     return all_controls
+
+
+def get_current_folder():
+    all_paths = cmds.file(query=True, list=True)
+    current_path = [path for path in all_paths if '.ma' in path]
+    current_folder = os.path.dirname(current_path[0])
+    return current_folder
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Main steps in 2.5D workflow
@@ -95,7 +102,10 @@ def create_game_skeleton(*args):
 
 
 def export_skin_weights(*args):
-    cmds.deformerWeights("clusterWeights.xml", ex=True, deformer="testCluster")
+    weight_path = os.path.join(get_current_folder(), 'weights')
+    if not os.path.exists(weight_path):
+        os.makedirs(weight_path)
+    cmds.deformerWeights(get_geo() + '_weights.xml', path=weight_path, export=True, deformer=get_skin_cluster())
 
 
 def unbind_geo(*args):
