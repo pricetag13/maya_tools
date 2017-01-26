@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import maya.mel as mel
 from functools import partial
 import re
 import os
@@ -16,7 +17,7 @@ def get_geo():
 
 def get_actor_main_group():
     actor_main_group = cmds.listRelatives(get_geo(), parent=True)
-    return actor_main_group
+    return actor_main_group[0]
 
 
 def get_def_joints():
@@ -60,11 +61,23 @@ def get_controls():
     return all_controls
 
 
+def get_rig_root():
+    all_transforms = cmds.ls(type='transform')
+    rig_root = [transform for transform in all_transforms if 'rig' in transform]
+    return rig_root[0]
+
+
 def get_current_folder():
     all_paths = cmds.file(query=True, list=True)
     current_path = [path for path in all_paths if '.ma' in path]
     current_folder = os.path.dirname(current_path[0])
     return current_folder
+
+
+def get_lambert():
+    all_lamberts = cmds.ls(type='lambert')
+    asset_lambert = [lambert for lambert in all_lamberts if '_L' in lambert]
+    return asset_lambert[0]
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,9 +156,39 @@ def import_skin_weights(*args):
     for fullpath, shortpath in rename_joints:
         cmds.rename(fullpath, 'game_' + shortpath)
 
-    # for game_joint in get_game_joints_full_path():
-    #     prefixed_game_joint = 'game_' + game_joint
-    #     cmds.rename(game_joint, prefixed_game_joint)
+
+def export_game_asset_fbx(*args):
+
+    cmds.parent(get_rig_root(), world=True)
+    cmds.select(get_actor_main_group())
+
+    out_color = (get_lambert() + '.outColor')
+    out_color_connection = cmds.listConnections(out_color)
+    cmds.disconnectAttr(out_color, out_color_connection[0] + '.surfaceShader')
+
+    reset_export = 'FBXResetExport'
+    mel.eval(reset_export)
+    fbx_export_properties = ('FBXExportInAscii -v true;'
+                             'FBXExportConstraints -v false;'
+                             'FBXExportEmbeddedTextures -v false;'
+                             'FBXExportFileVersion -v "FBX201400";'
+                             'FBXExportInputConnections -v false;'
+                             'FBXExportShapes -v true;'
+                             'FBXExportSkins -v true;'
+                             'FBXExportSmoothingGroups -v true;'
+                             'FBXProperty "Export|AdvOptGrp|UI|ShowWarningsManager" -v false;'
+                             )
+    mel.eval(fbx_export_properties)
+
+    filepath = os.path.join(get_current_folder(), get_actor_main_group() + '.fbx')
+
+    with open(filepath, 'w'):
+        cmds.file(filepath, force=True, exportSelected=True, type='FBX', ignoreVersion=True)
+
+    cmds.connectAttr(out_color, out_color_connection[0] + '.surfaceShader')
+
+    cmds.parent(get_rig_root(), get_actor_main_group())
+
 
 
 # def create_game_skeleton(game_joints):
@@ -170,7 +213,8 @@ function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('export_skin_weights', export_skin_weights),
                  ('unbind_geo', unbind_geo),
                  ('bind_to_game_joints', bind_to_game_joints),
-                 ('import_skin_weights', import_skin_weights)
+                 ('import_skin_weights', import_skin_weights),
+                 ('export_game_asset_fbx', export_game_asset_fbx),
                  ]
 
 

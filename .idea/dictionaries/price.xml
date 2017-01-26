@@ -3,6 +3,10 @@
     <words>
       <w>cardz</w>
       <w>ctrls</w>
+      <w>filepath</w>
+      <w>fullpath</w>
+      <w>lamberts</w>
+      <w>shortpath</w>
     </words>
   </dictionary>
 </component>
