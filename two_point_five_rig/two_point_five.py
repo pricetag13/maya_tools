@@ -61,6 +61,16 @@ def get_controls():
     return all_controls
 
 
+def get_all_controls():
+    all_objects = cmds.ls(type=['joint', 'transform'])
+    all_controls = []
+    for object_ in all_objects:
+        control_ = object_.endswith('_ctrl')
+        if control_:
+            all_controls.append(object_)
+    return all_controls
+
+
 def get_rig_root():
     all_transforms = cmds.ls(type='transform')
     rig_root = [transform for transform in all_transforms if 'rig' in transform]
@@ -83,6 +93,18 @@ def get_lambert():
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Main steps in 2.5D workflow
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+def zero_controls(*args):
+    print 'get_all_controls = ', get_all_controls()
+    attr_axis_dict = {'tx': 0, 'ty': 0, 'tz': 0, 'rx': 0, 'ry': 0, 'rz': 0, 'sx': 1, 'sy': 1, 'sz': 1}
+
+    for control_ in get_all_controls():
+        for key, value in attr_axis_dict.items():
+            try:
+                cmds.setAttr(control_ + '.' + key, value)
+            except:
+                continue
 
 
 def bind_actor(*args):
@@ -164,13 +186,16 @@ def connect_game_skeleton_to_rig(*args):
         rig_joints.append(rig_joint)
 
     constrain_joints = zip(rig_joints, get_bind_joints())
-    print 'constrain_joints = ', constrain_joints
-
-    # return None
 
     for x, y in constrain_joints:
         cmds.parentConstraint(x, y)
         cmds.scaleConstraint(x, y)
+
+
+def disconnect_game_skeleton_from_rig(*args):
+    for bind_joint in get_bind_joints():
+        delete_constraints = cmds.listConnections(bind_joint, type='constraint')
+        cmds.delete(delete_constraints)
 
 
 def export_game_asset_fbx(*args):
@@ -263,7 +288,8 @@ def combine_actor(*args):
 # Functions included in the GUI
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function_list = [('Lock Controls 2D', lock_controls_2d),
+function_list = [('zero_controls', zero_controls),
+                 ('Lock Controls 2D', lock_controls_2d),
                  ('Bind Actor', bind_actor),
                  ('Create Game Skeleton', create_game_skeleton),
                  ('export_skin_weights', export_skin_weights),
@@ -271,6 +297,7 @@ function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('bind_to_game_joints', bind_to_game_joints),
                  ('import_skin_weights', import_skin_weights),
                  ('connect_game_skeleton_to_rig', connect_game_skeleton_to_rig),
+                 ('disconnect_game_skeleton_from_rig', disconnect_game_skeleton_from_rig),
                  ('export_game_asset_fbx', export_game_asset_fbx),
                  ('Project Actor UVs', project_actor_uvs),
                  ('combine_actor', combine_actor)
