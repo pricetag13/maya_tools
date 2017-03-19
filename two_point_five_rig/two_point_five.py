@@ -193,6 +193,7 @@ def connect_game_skeleton_to_rig(*args):
 
 
 def disconnect_game_skeleton_from_rig(*args):
+    zero_controls()
     for bind_joint in get_bind_joints():
         delete_constraints = cmds.listConnections(bind_joint, type='constraint')
         cmds.delete(delete_constraints)
