@@ -190,6 +190,25 @@ def export_game_asset_fbx(*args):
     cmds.parent(get_rig_root(), get_actor_main_group())
 
 
+def project_puppet_uvs(*args):
+    selected_items = cmds.ls(selection=True)
+    last_in_list = selected_items[-1]
+
+    plane_shader = cmds.listConnections(cmds.listHistory(last_in_list, f=1), type='shadingEngine')
+    bounding_box = cmds.xform(last_in_list, query=True, boundingBox=True)
+    width_length = (bounding_box[-1]) * 2
+
+    cmds.sets(edit=True, forceElement=plane_shader[0])
+
+    for item in selected_items[:-1]:
+        projection = cmds.polyProjection(item + '.f[0:9999]', type='Planar', insertBeforeDeformers=True,
+                                         mapDirection='y')
+        cmds.setAttr(projection[0] + '.projectionCenter', 0, 0, 0)
+        cmds.setAttr(projection[0] + '.projectionWidth', width_length)
+        cmds.setAttr(projection[0] + '.projectionHeight', width_length)
+
+    cmds.delete(last_in_list)
+
 
 # def create_game_skeleton(game_joints):
 #
@@ -215,6 +234,7 @@ function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('bind_to_game_joints', bind_to_game_joints),
                  ('import_skin_weights', import_skin_weights),
                  ('export_game_asset_fbx', export_game_asset_fbx),
+                 ('project_puppet_uvs', project_puppet_uvs)
                  ]
 
 
