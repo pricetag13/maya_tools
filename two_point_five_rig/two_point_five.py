@@ -224,6 +224,10 @@ def project_puppet_uvs(*args):
 
     for item in selected_items[:-1]:
         cmds.parent(item, world=True)
+        item_center = cmds.objectCenter(item, l=True)
+        cmds.xform(item, worldSpace=True, pivots=item_center)
+        cmds.makeIdentity(apply=True, translate=1, rotate=1, scale=1, normal=1)
+
 
     cmds.delete(temp_xform_null)
     cmds.delete(last_in_list)
