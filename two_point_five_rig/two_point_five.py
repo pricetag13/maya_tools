@@ -157,6 +157,22 @@ def import_skin_weights(*args):
         cmds.rename(fullpath, 'game_' + shortpath)
 
 
+def connect_game_skeleton_to_rig(*args):
+    rig_joints = []
+    for bind_joint in get_bind_joints():
+        rig_joint = bind_joint[5:]
+        rig_joints.append(rig_joint)
+
+    constrain_joints = zip(rig_joints, get_bind_joints())
+    print 'constrain_joints = ', constrain_joints
+
+    # return None
+
+    for x, y in constrain_joints:
+        cmds.parentConstraint(x, y)
+        cmds.scaleConstraint(x, y)
+
+
 def export_game_asset_fbx(*args):
 
     cmds.parent(get_rig_root(), world=True)
@@ -190,7 +206,7 @@ def export_game_asset_fbx(*args):
     cmds.parent(get_rig_root(), get_actor_main_group())
 
 
-def project_puppet_uvs(*args):
+def project_actor_uvs(*args):
     selected_items = cmds.ls(selection=True)
     last_in_list = selected_items[-1]
     plane_shader = cmds.listConnections(cmds.listHistory(last_in_list, f=1), type='shadingEngine')
@@ -234,16 +250,13 @@ def project_puppet_uvs(*args):
     cmds.delete(display_layer)
 
 
-# def create_game_skeleton(game_joints):
-#
-#     constrain_joints = zip(get_bind_joints(), game_joints)
-#
-#     for x, y in constrain_joints:
-#         cmds.parentConstraint(x, y)
-#         cmds.scaleConstraint(x, y)
-#
-#     for game_joint in game_joints:
-#         cmds.parent(game_joint, game_root_jnt)
+def combine_actor(*args):
+    cmds.polyUnite(ch=0, mergeUVSets=1, name='actor_geo')
+    actor_bounding_box = cmds.xform('actor_geo', query=True, boundingBox=True)
+    center_pos = cmds.xform('actor_geo', query=True, worldSpace=True, scalePivot=True)
+    cmds.xform('actor_geo', worldSpace=True, pivots=[center_pos[0], actor_bounding_box[1], center_pos[2]])
+    cmds.move('actor_geo', rotatePivotRelative=True, y=0)
+    cmds.makeIdentity('actor_geo', apply=True, translate=1, rotate=1, scale=1, normal=1)
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,8 +270,10 @@ function_list = [('Lock Controls 2D', lock_controls_2d),
                  ('unbind_geo', unbind_geo),
                  ('bind_to_game_joints', bind_to_game_joints),
                  ('import_skin_weights', import_skin_weights),
+                 ('connect_game_skeleton_to_rig', connect_game_skeleton_to_rig),
                  ('export_game_asset_fbx', export_game_asset_fbx),
-                 ('project_puppet_uvs', project_puppet_uvs)
+                 ('Project Actor UVs', project_actor_uvs),
+                 ('combine_actor', combine_actor)
                  ]
 
 
