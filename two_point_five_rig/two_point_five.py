@@ -193,21 +193,41 @@ def export_game_asset_fbx(*args):
 def project_puppet_uvs(*args):
     selected_items = cmds.ls(selection=True)
     last_in_list = selected_items[-1]
-
     plane_shader = cmds.listConnections(cmds.listHistory(last_in_list, f=1), type='shadingEngine')
-    bounding_box = cmds.xform(last_in_list, query=True, boundingBox=True)
-    width_length = (bounding_box[-1]) * 2
-
     cmds.sets(edit=True, forceElement=plane_shader[0])
 
+    display_layer = cmds.listConnections(last_in_list, type='displayLayer')
+    bounding_box = cmds.xform(last_in_list, query=True, boundingBox=True)
+    width_length = (bounding_box[-1]) * 2
+    temp_xform_null = cmds.group(empty=True, name='temp_xform_null')
+
+    cmds.select(selected_items)
+
     for item in selected_items[:-1]:
-        projection = cmds.polyProjection(item + '.f[0:9999]', type='Planar', insertBeforeDeformers=True,
-                                         mapDirection='y')
+        cmds.polyNormalPerVertex(xyz=(0.0, 1.0, 0.0))
+        projection = cmds.polyProjection(item + '.f[0:9999]', type='Planar', mapDirection='y')
         cmds.setAttr(projection[0] + '.projectionCenter', 0, 0, 0)
         cmds.setAttr(projection[0] + '.projectionWidth', width_length)
         cmds.setAttr(projection[0] + '.projectionHeight', width_length)
+        cmds.parent(item, temp_xform_null)
 
+        cmds.delete(constructionHistory=True)
+
+    xform_bounding_box = cmds.xform(temp_xform_null, query=True, boundingBox=True)
+
+    cmds.setAttr(temp_xform_null + '.rotateX', 90)
+
+    xform_bounding_box = cmds.xform(temp_xform_null, query=True, boundingBox=True)
+    center_pos = cmds.xform(temp_xform_null, query=True, worldSpace=True, scalePivot=True)
+    cmds.xform(temp_xform_null, worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], center_pos[2]])
+    cmds.move(temp_xform_null, rotatePivotRelative=True, y=0)
+
+    for item in selected_items[:-1]:
+        cmds.parent(item, world=True)
+
+    cmds.delete(temp_xform_null)
     cmds.delete(last_in_list)
+    cmds.delete(display_layer)
 
 
 # def create_game_skeleton(game_joints):
