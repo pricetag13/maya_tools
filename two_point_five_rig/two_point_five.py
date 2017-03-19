@@ -285,6 +285,32 @@ def combine_actor(*args):
     cmds.makeIdentity('actor_geo', apply=True, translate=1, rotate=1, scale=1, normal=1)
 
 
+def create_pivot_locators(*args):
+    file_path = os.join(get_current_folder(), 'pivot_locators.ma')
+    appendages = cmds.ls(selection=True)
+    appendages_list = []
+
+    for appendage in appendages:
+        center_pos = cmds.xform(appendage, query=True, worldSpace=True, scalePivot=True)
+        print 'center_pos = ', center_pos
+        appendage_locator = cmds.spaceLocator(p=center_pos, name='appendage_locator')
+        print appendage_locator
+        cmds.setAttr(appendage_locator[0] + '.localScaleX', 4)
+        cmds.setAttr(appendage_locator[0] + '.localScaleY', 4)
+        cmds.setAttr(appendage_locator[0] + '.localScaleZ', 4)
+        cmds.setAttr(appendage_locator[0] + '.overrideEnabled', 1)
+        cmds.setAttr(appendage_locator[0] + '.overrideColor', 17)
+        appendages_list.append(appendage_locator[0])
+
+    appendage_locator_grp = cmds.group(empty=True, name='appendage_locator_grp')
+    for appendage in appendages_list:
+        cmds.parent(appendage, appendage_locator_grp)
+
+    cmds.select(appendage_locator_grp)
+    cmds.file(file_path, exportSelected=True, type='mayaAscii')
+
+
+
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Functions included in the GUI
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,9 +327,9 @@ function_list = [('zero_controls', zero_controls),
                  ('disconnect_game_skeleton_from_rig', disconnect_game_skeleton_from_rig),
                  ('export_game_asset_fbx', export_game_asset_fbx),
                  ('Project Actor UVs', project_actor_uvs),
-                 ('combine_actor', combine_actor)
+                 ('combine_actor', combine_actor),
+                 ('create_pivot_locators', create_pivot_locators)
                  ]
-
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # 2.5D workflow GUI
