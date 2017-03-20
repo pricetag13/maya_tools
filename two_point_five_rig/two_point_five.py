@@ -29,6 +29,7 @@ def get_def_joints():
 def get_bind_joints():
     if get_skin_cluster():
         bind_joints = cmds.skinCluster(get_skin_cluster(), query=True, inf=True)
+        print 'bind_joints = ', bind_joints
         return bind_joints
 
 
@@ -43,15 +44,10 @@ def get_game_joints_full_path():
 
 
 def get_skin_cluster():
-    found_skin_cluster = ''
     for relative in cmds.listRelatives(get_geo()):
         connections = cmds.listConnections(relative)
         skin_cluster_found = [s for s in connections if 'skinCluster' in s]
-
-    if skin_cluster_found:
-        found_skin_cluster = skin_cluster_found[0]
-        found_skin_cluster = found_skin_cluster[:-3]
-    return found_skin_cluster
+        return skin_cluster_found[:-3]
 
 
 def get_controls():
