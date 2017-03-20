@@ -44,10 +44,16 @@ def get_game_joints_full_path():
 
 
 def get_skin_cluster():
+    skin_cluster = []
     for relative in cmds.listRelatives(get_geo()):
         connections = cmds.listConnections(relative)
-        skin_cluster_found = [s for s in connections if 'skinCluster' in s]
-        return skin_cluster_found[:-3]
+        skin_cluster_nodes = [s for s in connections if 'skinCluster' in s]
+        for node in skin_cluster_nodes:
+            print node
+            filtered_out = node.endswith(('Set', 'GroupId'))
+            if not filtered_out:
+                skin_cluster.append(node)
+    return skin_cluster[0]
 
 
 def get_controls():
@@ -144,10 +150,11 @@ def create_game_skeleton(*args):
 
 
 def export_skin_weights(*args):
+    print '@@@@@@@@ skin cluster = ', get_skin_cluster()
     weight_path = os.path.join(get_current_folder(), 'weights')
     if not os.path.exists(weight_path):
         os.makedirs(weight_path)
-    cmds.deformerWeights(get_geo() + '_weights.xml', path=weight_path, export=True, deformer=get_skin_cluster())
+    cmds.deformerWeights(get_geo() + '_weights.xml', path=weight_path, export=True, deformer=str(get_skin_cluster()))
 
 
 def unbind_geo(*args):
