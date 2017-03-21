@@ -29,7 +29,6 @@ def get_def_joints():
 def get_bind_joints():
     if get_skin_cluster():
         bind_joints = cmds.skinCluster(get_skin_cluster(), query=True, inf=True)
-        print 'bind_joints = ', bind_joints
         return bind_joints
 
 
@@ -49,7 +48,6 @@ def get_skin_cluster():
         connections = cmds.listConnections(relative)
         skin_cluster_nodes = [s for s in connections if 'skinCluster' in s]
         for node in skin_cluster_nodes:
-            print node
             filtered_out = node.endswith(('Set', 'GroupId'))
             if not filtered_out:
                 skin_cluster.append(node)
@@ -98,7 +96,6 @@ def get_lambert():
 
 
 def zero_controls(*args):
-    print 'get_all_controls = ', get_all_controls()
     attr_axis_dict = {'tx': 0, 'ty': 0, 'tz': 0, 'rx': 0, 'ry': 0, 'rz': 0, 'sx': 1, 'sy': 1, 'sz': 1}
 
     for control_ in get_all_controls():
@@ -150,7 +147,6 @@ def create_game_skeleton(*args):
 
 
 def export_skin_weights(*args):
-    print '@@@@@@@@ skin cluster = ', get_skin_cluster()
     weight_path = os.path.join(get_current_folder(), 'weights')
     if not os.path.exists(weight_path):
         os.makedirs(weight_path)
@@ -235,6 +231,18 @@ def export_game_asset_fbx(*args):
     cmds.parent(get_rig_root(), get_actor_main_group())
 
 
+def conform_normals(*args):
+    geo = get_geo()
+    cmds.polyNormal(geo, nm=2)
+    face = cmds.polyInfo(geo + '.f[0]', faceNormals=True)
+    split_face = face[0].split(":")
+    vector = split_face[1][10]
+    if '-' in vector:
+        cmds.polyNormal(geo, nm=0)
+    else:
+        return None
+
+
 def project_actor_uvs(*args):
     selected_items = cmds.ls(selection=True)
     last_in_list = selected_items[-1]
@@ -295,9 +303,7 @@ def create_pivot_locators(*args):
 
     for appendage in appendages:
         center_pos = cmds.xform(appendage, query=True, worldSpace=True, scalePivot=True)
-        print 'center_pos = ', center_pos
         appendage_locator = cmds.spaceLocator(p=center_pos, name='appendage_locator')
-        print appendage_locator
         cmds.setAttr(appendage_locator[0] + '.localScaleX', 4)
         cmds.setAttr(appendage_locator[0] + '.localScaleY', 4)
         cmds.setAttr(appendage_locator[0] + '.localScaleZ', 4)
@@ -311,7 +317,6 @@ def create_pivot_locators(*args):
 
     cmds.select(appendage_locator_grp)
     cmds.file(file_path, exportSelected=True, type='mayaAscii')
-
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -331,7 +336,8 @@ function_list = [('zero_controls', zero_controls),
                  ('export_game_asset_fbx', export_game_asset_fbx),
                  ('Project Actor UVs', project_actor_uvs),
                  ('combine_actor', combine_actor),
-                 ('create_pivot_locators', create_pivot_locators)
+                 ('create_pivot_locators', create_pivot_locators),
+                 ('conform_normals', conform_normals)
                  ]
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -359,7 +365,6 @@ def build_gui():
     for label, function in function_list:
         cmds.button(label + '_button', h=60, w=250, label=label, command=partial(function))
         count += 1
-
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
