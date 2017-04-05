@@ -106,6 +106,16 @@ def zero_controls(*args):
                 continue
 
 
+def key_all(*args):
+    for control_ in get_all_controls():
+        cmds.setKeyframe(control_)
+
+
+def cut_keys(*args):
+    for control_ in get_all_controls():
+        cmds.cutKey(control_)
+
+
 def bind_actor(*args):
     cmds.select(get_def_joints())
     cmds.select(get_geo(), add=True)
@@ -323,22 +333,28 @@ def create_pivot_locators(*args):
 # Functions included in the GUI
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function_list = [('zero_controls', zero_controls),
-                 ('Lock Controls 2D', lock_controls_2d),
-                 ('Bind Actor', bind_actor),
-                 ('Create Game Skeleton', create_game_skeleton),
-                 ('export_skin_weights', export_skin_weights),
-                 ('unbind_geo', unbind_geo),
-                 ('bind_to_game_joints', bind_to_game_joints),
-                 ('import_skin_weights', import_skin_weights),
-                 ('connect_game_skeleton_to_rig', connect_game_skeleton_to_rig),
-                 ('disconnect_game_skeleton_from_rig', disconnect_game_skeleton_from_rig),
-                 ('export_game_asset_fbx', export_game_asset_fbx),
-                 ('Project Actor UVs', project_actor_uvs),
-                 ('combine_actor', combine_actor),
-                 ('create_pivot_locators', create_pivot_locators),
-                 ('conform_normals', conform_normals)
-                 ]
+modeling_function_list = [('Project Actor UVs', project_actor_uvs),
+                          ('combine_actor', combine_actor),
+                          ('create_pivot_locators', create_pivot_locators),
+                          ('conform_normals', conform_normals)
+                          ]
+
+rigging_function_list = [('Lock Controls 2D', lock_controls_2d),
+                         ('Bind Actor', bind_actor),
+                         ('Create Game Skeleton', create_game_skeleton),
+                         ('export_skin_weights', export_skin_weights),
+                         ('unbind_geo', unbind_geo),
+                         ('bind_to_game_joints', bind_to_game_joints),
+                         ('import_skin_weights', import_skin_weights),
+                         ('connect_game_skeleton_to_rig', connect_game_skeleton_to_rig),
+                         ('disconnect_game_skeleton_from_rig', disconnect_game_skeleton_from_rig),
+                         ('export_game_asset_fbx', export_game_asset_fbx),
+                         ]
+
+animation_function_list = [('zero_controls', zero_controls),
+                           ('key_all', key_all),
+                           ('cut_keys', cut_keys)
+                           ]
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # 2.5D workflow GUI
@@ -356,19 +372,36 @@ def build_gui():
     # window preferences
     win_main = cmds.window("2pt5d_win", title="2.5D", sizeable=True, width=250, height=100)
 
-    # window layout
-    cmds.frameLayout(label='rigging Workflow', collapsable=True, parent=win_main)
-    cmds.rowColumnLayout(numberOfColumns=1)
-
     count = 0
 
-    for label, function in function_list:
-        cmds.button(label + '_button', h=60, w=250, label=label, command=partial(function))
+    # modeling frame layout
+    cmds.frameLayout(label='modeling Workflow', collapsable=False, parent=win_main)
+    cmds.rowColumnLayout(numberOfColumns=1)
+
+    for label, function in modeling_function_list:
+        cmds.button(label + '_button', h=40, w=250, label=label, command=partial(function))
+        count += 1
+
+    # rigging frame layout
+    cmds.frameLayout(label='rigging Workflow', collapsable=False, parent=win_main)
+    cmds.rowColumnLayout(numberOfColumns=1)
+
+    for label, function in rigging_function_list:
+        cmds.button(label + '_button', h=40, w=250, label=label, command=partial(function))
+        count += 1
+    cmds.setParent("..")
+
+    # animation frame layout
+    cmds.frameLayout(label='animation Workflow', collapsable=False, parent=win_main)
+    cmds.rowColumnLayout(numberOfColumns=1)
+
+    for label, function in animation_function_list:
+        cmds.button(label + '_button', h=40, w=250, label=label, command=partial(function))
         count += 1
 
     cmds.setParent("..")
     cmds.showWindow(win_main)
-    cmds.window(win_main, e=1, topLeftCorner=window_pos, height=count*60, width=250)
+    cmds.window(win_main, e=1, topLeftCorner=window_pos, height=count*40, width=250)
 
 
 def main():
