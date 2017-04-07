@@ -106,6 +106,11 @@ def zero_controls(*args):
                 continue
 
 
+def select_all_controls(*args):
+    for control_ in get_all_controls():
+        cmds.select(control_, add=True)
+
+
 def key_all(*args):
     for control_ in get_all_controls():
         cmds.setKeyframe(control_)
@@ -114,6 +119,14 @@ def key_all(*args):
 def cut_keys(*args):
     for control_ in get_all_controls():
         cmds.cutKey(control_)
+
+
+def hide_controls(*args):
+    rig_visibility = cmds.getAttr('rig.visibility')
+    if rig_visibility:
+        cmds.setAttr('rig.visibility', 0)
+    else:
+        cmds.setAttr('rig.visibility', 1)
 
 
 def bind_actor(*args):
@@ -353,7 +366,9 @@ rigging_function_list = [('Lock Controls 2D', lock_controls_2d),
 
 animation_function_list = [('zero_controls', zero_controls),
                            ('key_all', key_all),
-                           ('cut_keys', cut_keys)
+                           ('cut_keys', cut_keys),
+                           ('select_all_controls', select_all_controls),
+                           ('hide_controls', hide_controls)
                            ]
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -389,7 +404,6 @@ def build_gui():
     for label, function in rigging_function_list:
         cmds.button(label + '_button', h=40, w=250, label=label, command=partial(function))
         count += 1
-    cmds.setParent("..")
 
     # animation frame layout
     cmds.frameLayout(label='animation Workflow', collapsable=False, parent=win_main)
