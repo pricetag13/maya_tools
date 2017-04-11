@@ -221,37 +221,46 @@ def disconnect_game_skeleton_from_rig(*args):
         cmds.delete(delete_constraints)
 
 
-def export_game_asset_fbx(*args):
-
-    cmds.parent(get_rig_root(), world=True)
-    cmds.select(get_actor_main_group())
-
-    out_color = (get_lambert() + '.outColor')
-    out_color_connection = cmds.listConnections(out_color)
-    cmds.disconnectAttr(out_color, out_color_connection[0] + '.surfaceShader')
-
-    reset_export = 'FBXResetExport'
-    mel.eval(reset_export)
-    fbx_export_properties = ('FBXExportInAscii -v true;'
-                             'FBXExportConstraints -v false;'
-                             'FBXExportEmbeddedTextures -v false;'
-                             'FBXExportFileVersion -v "FBX201400";'
-                             'FBXExportInputConnections -v false;'
-                             'FBXExportShapes -v true;'
-                             'FBXExportSkins -v true;'
-                             'FBXExportSmoothingGroups -v true;'
-                             'FBXProperty "Export|AdvOptGrp|UI|ShowWarningsManager" -v false;'
-                             )
-    mel.eval(fbx_export_properties)
-
+def export_skeletal_mesh_fbx(*args):
     filepath = os.path.join(get_current_folder(), get_actor_main_group() + '.fbx')
+    cmds.select(get_actor_main_group())
+    cmds.file(filepath, force=True, options=0, typ="FBX export", pr=True, es=True)
 
-    with open(filepath, 'w'):
-        cmds.file(filepath, force=True, exportSelected=True, type='FBX', ignoreVersion=True)
 
-    cmds.connectAttr(out_color, out_color_connection[0] + '.surfaceShader')
+def bake_animation(*args):
+    cmds.bakeResults(get_game_joints(), simulation=True, time=(1, 30))
 
-    cmds.parent(get_rig_root(), get_actor_main_group())
+
+def export_clip(*args):
+    cmds.select(get_game_joints())
+    return None
+    start_dir = os.path.join(get_current_folder(), 'clips')
+    filepath = cmds.fileDialog2(startingDirectory=start_dir)
+    cmds.file(filepath, force=True, options=0, typ="FBX export", pr=True, es=True)
+
+
+# def export_game_asset_fbx(*args):
+#
+#     cmds.select(get_actor_main_group())
+#
+#     reset_export = 'FBXResetExport'
+#     mel.eval(reset_export)
+#     fbx_export_properties = ('FBXExportInAscii -v true;'
+#                              'FBXExportConstraints -v false;'
+#                              'FBXExportEmbeddedTextures -v false;'
+#                              'FBXExportFileVersion -v "FBX201400";'
+#                              'FBXExportInputConnections -v false;'
+#                              'FBXExportShapes -v true;'
+#                              'FBXExportSkins -v true;'
+#                              'FBXExportSmoothingGroups -v true;'
+#                              'FBXProperty "Export|AdvOptGrp|UI|ShowWarningsManager" -v false;'
+#                              )
+#     mel.eval(fbx_export_properties)
+#
+#     filepath = os.path.join(get_current_folder(), get_actor_main_group() + '.fbx')
+#
+#     with open(filepath, 'w'):
+#         cmds.file(filepath, force=True, exportSelected=True, type='FBX', ignoreVersion=True)
 
 
 def conform_normals(*args):
@@ -361,14 +370,16 @@ rigging_function_list = [('Lock Controls 2D', lock_controls_2d),
                          ('import_skin_weights', import_skin_weights),
                          ('connect_game_skeleton_to_rig', connect_game_skeleton_to_rig),
                          ('disconnect_game_skeleton_from_rig', disconnect_game_skeleton_from_rig),
-                         ('export_game_asset_fbx', export_game_asset_fbx),
+                         ('export_skeletal_mesh_fbx', export_skeletal_mesh_fbx),
                          ]
 
 animation_function_list = [('zero_controls', zero_controls),
                            ('key_all', key_all),
                            ('cut_keys', cut_keys),
                            ('select_all_controls', select_all_controls),
-                           ('hide_controls', hide_controls)
+                           ('hide_controls', hide_controls),
+                           ('export_clip', export_clip),
+                           ('bake_animation', bake_animation)
                            ]
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
