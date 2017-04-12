@@ -3,6 +3,7 @@ import maya.mel as mel
 from functools import partial
 import re
 import os
+from undo_dec import undo
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Return lists of components required by various steps in the workflow
@@ -233,12 +234,26 @@ def bake_animation(*args):
     cmds.bakeResults(get_game_joints(), simulation=True, time=(start_frame, end_frame))
 
 
+@undo
 def export_clip(*args):
-    bake_animation()
-    cmds.select(get_game_joints())
-    start_dir = os.path.join(get_current_folder(), 'clips')
-    filepath = cmds.fileDialog2(startingDirectory=start_dir)
-    cmds.file(filepath, force=True, options=0, typ="FBX export", pr=True, es=True)
+    filepath = cmds.fileDialog2(startingDirectory=get_current_folder(), fileFilter='*.fbx', dialogStyle=1)
+    if filepath:
+        bake_animation()
+        cmds.select(get_game_joints())
+        reset_export = 'FBXResetExport'
+        mel.eval(reset_export)
+        fbx_export_properties = ('FBXExportInAscii -v true;'
+                                 'FBXExportConstraints -v false;'
+                                 'FBXExportEmbeddedTextures -v false;'
+                                 'FBXExportFileVersion -v "FBX201400";'
+                                 'FBXExportInputConnections -v false;'
+                                 'FBXExportShapes -v false;'
+                                 'FBXExportSkins -v false;'
+                                 'FBXExportSmoothingGroups -v false;'
+                                 'FBXProperty "Export|AdvOptGrp|UI|ShowWarningsManager" -v false;'
+                                 )
+        mel.eval(fbx_export_properties)
+        cmds.file(filepath, force=True, options=0, typ="FBX export", pr=True, es=True)
 
 
 # def export_game_asset_fbx(*args):
