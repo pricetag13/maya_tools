@@ -228,12 +228,14 @@ def export_skeletal_mesh_fbx(*args):
 
 
 def bake_animation(*args):
-    cmds.bakeResults(get_game_joints(), simulation=True, time=(1, 30))
+    start_frame = cmds.playbackOptions(query=True, animationStartTime=True)
+    end_frame = cmds.playbackOptions(query=True, animationEndTime=True)
+    cmds.bakeResults(get_game_joints(), simulation=True, time=(start_frame, end_frame))
 
 
 def export_clip(*args):
+    bake_animation()
     cmds.select(get_game_joints())
-    return None
     start_dir = os.path.join(get_current_folder(), 'clips')
     filepath = cmds.fileDialog2(startingDirectory=start_dir)
     cmds.file(filepath, force=True, options=0, typ="FBX export", pr=True, es=True)
