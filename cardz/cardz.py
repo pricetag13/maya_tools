@@ -1,10 +1,11 @@
 """
-This is my tool to automate the process of creating 2.5d cards for my production pipeline
+This is my tool to automate the process of creating 2.5d cards
 """
 
-import maya.cmds as cmds
 import os
 import json
+from functools import partial
+import maya.cmds as cmds
 
 ROOT_DIR = "C:/dev/maya_tools/cardz/"
 
@@ -87,22 +88,90 @@ def create_card(list_item):
     cmds.sets(card, edit=True, forceElement=shading_group)
 
 
-def build_gui():
-    window_pos = [0, 0]
+def project_uvs(*args):
+    selected_items = cmds.ls(selection=True)
+    last_in_list = selected_items[-1]
+    plane_shader = cmds.listConnections(cmds.listHistory(last_in_list, f=1), type='shadingEngine')
+    cmds.sets(edit=True, forceElement=plane_shader[0])
 
+    display_layer = cmds.listConnections(last_in_list, type='displayLayer')
+    bounding_box = cmds.xform(last_in_list, query=True, boundingBox=True)
+    width_length = (bounding_box[-1]) * 2
+    temp_xform_null = cmds.group(empty=True, name='temp_xform_null')
+
+    cmds.select(selected_items)
+
+    for item in selected_items[:-1]:
+        cmds.polyNormalPerVertex(xyz=(0.0, 1.0, 0.0))
+        projection = cmds.polyProjection(item + '.f[0:9999]', type='Planar', mapDirection='y')
+        cmds.setAttr(projection[0] + '.projectionCenter', 0, 0, 0)
+        cmds.setAttr(projection[0] + '.projectionWidth', width_length)
+        cmds.setAttr(projection[0] + '.projectionHeight', width_length)
+        cmds.parent(item, temp_xform_null)
+
+        cmds.delete(constructionHistory=True)
+
+    xform_bounding_box = cmds.xform(temp_xform_null, query=True, boundingBox=True)
+
+    cmds.setAttr(temp_xform_null + '.rotateX', 90)
+
+    xform_bounding_box = cmds.xform(temp_xform_null, query=True, boundingBox=True)
+    center_pos = cmds.xform(temp_xform_null, query=True, worldSpace=True, scalePivot=True)
+    cmds.xform(temp_xform_null, worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], center_pos[2]])
+    cmds.move(temp_xform_null, rotatePivotRelative=True, y=0)
+
+    for item in selected_items[:-1]:
+        cmds.parent(item, world=True)
+        item_center = cmds.objectCenter(item, l=True)
+        cmds.xform(item, worldSpace=True, pivots=item_center)
+        cmds.makeIdentity(apply=True, translate=1, rotate=1, scale=1, normal=1)
+
+
+    cmds.delete(temp_xform_null)
+    cmds.delete(last_in_list)
+    cmds.delete(display_layer)
+
+
+def combine_geo(*args):
+    cmds.polyUnite(ch=0, mergeUVSets=1, name='actor_geo')
+    actor_bounding_box = cmds.xform('actor_geo', query=True, boundingBox=True)
+    center_pos = cmds.xform('actor_geo', query=True, worldSpace=True, scalePivot=True)
+    cmds.xform('actor_geo', worldSpace=True, pivots=[center_pos[0], actor_bounding_box[1], center_pos[2]])
+    cmds.move('actor_geo', rotatePivotRelative=True, y=0)
+    cmds.makeIdentity('actor_geo', apply=True, translate=1, rotate=1, scale=1, normal=1)
+
+
+def conform_normals(*args):
+    geometry_list = cmds.ls(selection=True, exactType='transform')
+    cmds.polyNormal(geometry_list, nm=2)
+    for geometry in geometry_list:
+        face = cmds.polyInfo(geometry + '.f[0]', faceNormals=True)
+        split_face = face[0].split(":")
+        vector = split_face[1][10]
+        if '-' in vector:
+            cmds.polyNormal(geometry, nm=0)
+        else:
+            return None
+
+
+utility_list = [('Project UVs', project_uvs),
+                ('conform_normals', conform_normals),
+                ('combine_geo', combine_geo)
+                ]
+
+
+def build_gui():
     # If window already exists, deletes all preferences and kills it
     if cmds.window("cardz_win", exists=True):
-        window_pos = cmds.window("cardz_win", q=1, topLeftCorner=True)
-        cmds.deleteUI("cardz_win")
-        cmds.windowPref("cardz_win", removeAll=True)
+        close_window()
 
     # window preferences
-    win_main = cmds.window("cardz_win", title="Cardz", sizeable=True, width=550, height=60)
+    win_main = cmds.window("cardz_win", title="Cardz", sizeable=True)
 
     # window layout
     cmds.frameLayout(label='Source Image Directory', collapsable=True, parent=win_main)
     cmds.rowColumnLayout(numberOfColumns=2)
-    cmds.textField('cardz_path_field', width=520, alwaysInvokeEnterCommandOnReturn=True,
+    cmds.textField('cardz_path_field', width=470, alwaysInvokeEnterCommandOnReturn=True,
                    enterCommand=lambda maya_false: text_field_to_dir())
     cmds.button('cardz_browse_button', label='...', width=30, command=lambda maya_false: browse_to_dir())
     cmds.frameLayout(label='Image Files', collapsable=False, parent=win_main)
@@ -110,9 +179,18 @@ def build_gui():
     list_item = cmds.textScrollList('cardz_scroll_list', numberOfRows=20, allowMultiSelection=True, height=500,
                                     doubleClickCommand=lambda: create_card(list_item))
 
+    cmds.frameLayout(label='Utilities', collapsable=True, parent=win_main)
+    cmds.rowColumnLayout(numberOfColumns=2)
+    for label, function in utility_list:
+        cmds.button(label + '_button', h=40, w=250, label=label, command=partial(function))
+
     cmds.setParent("..")
     cmds.showWindow(win_main)
-    cmds.window(win_main, e=1, topLeftCorner=window_pos, height=300, width=250)
+
+
+def close_window():
+    cmds.deleteUI("cardz_win")
+    cmds.windowPref("cardz_win", removeAll=True)
 
 
 def main():

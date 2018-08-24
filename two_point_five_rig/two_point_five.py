@@ -222,7 +222,10 @@ def disconnect_game_skeleton_from_rig(*args):
         cmds.delete(delete_constraints)
 
 
+@undo
 def export_skeletal_mesh_fbx(*args):
+    cut_keys()
+    zero_controls()
     filepath = os.path.join(get_current_folder(), get_actor_main_group() + '.fbx')
     cmds.select(get_actor_main_group())
     cmds.file(filepath, force=True, options=0, typ="FBX export", pr=True, es=True)
@@ -239,7 +242,6 @@ def export_clip(*args):
     filepath = cmds.fileDialog2(startingDirectory=get_current_folder(), fileFilter='*.fbx', dialogStyle=1)
     if filepath:
         bake_animation()
-        cmds.select(get_game_joints())
         reset_export = 'FBXResetExport'
         mel.eval(reset_export)
         fbx_export_properties = ('FBXExportInAscii -v true;'
