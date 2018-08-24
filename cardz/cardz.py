@@ -153,7 +153,7 @@ def conform_normals(*args):
         else:
             return None
 
-
+# list of extra utilities used to populate buttons in GUI
 utility_list = [('Project UVs', project_uvs),
                 ('conform_normals', conform_normals),
                 ('combine_geo', combine_geo)
