@@ -207,9 +207,6 @@ class CardzClass(object):
         self.flip_geo_to_face_forward()
         self.create_render_cam()
 
-    def test_poop(self):
-        print "poopoo"
-
     def set_file_info_from_geo(self):
         selected_geo = cmds.ls(selection=True)
         selected_geo_shape = cmds.ls(selection=True, shapes=True, dag=True)
