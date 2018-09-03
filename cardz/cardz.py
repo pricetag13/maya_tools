@@ -3,8 +3,6 @@ import json
 from functools import partial
 import maya.cmds as cmds
 
-# ROOT_DIR = "C:/dev/maya_tools/cardz/"
-
 class CardzClass(object):
     """
     This is my tool to automate the process of creating 2.5d cards
@@ -39,6 +37,7 @@ class CardzClass(object):
         self.y_height = 0
 
         self.render_aspect_ratio = 1
+        self.card_cam = ''
 
 
 
@@ -182,18 +181,23 @@ class CardzClass(object):
             else:
                 return None
 
-    def flip_geo_to_face_forward(self):
+    def world_align_card(self):
         cmds.setAttr("{0}.rotateX".format(self.selected_geo[0]), 90)
-        # xform_bounding_box = cmds.xform(self.selected_geo[0], query=True, boundingBox=True)
-        # center_pos = cmds.xform(self.selected_geo[0], query=True, worldSpace=True, scalePivot=True)
-        # cmds.xform(self.selected_geo[0], worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], center_pos[2]])
-        # cmds.move(self.selected_geo[0], rotatePivotRelative=True, y=0)
+        temp_group = cmds.group(self.card_cam, self.selected_geo, name="{0}_grp".format(self.selected_geo))
+        xform_bounding_box = cmds.xform(temp_group, query=True, boundingBox=True)
+        center_pos = cmds.xform(temp_group, query=True, worldSpace=True, scalePivot=True)
+        cmds.xform(temp_group, worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], 0])
+        # cmds.xform(temp_group, worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], center_pos[2]])
+        cmds.move(temp_group, rotatePivotRelative=True, y=0)
+        cmds.parent(self.card_cam, world=True)
+        cmds.parent(self.selected_geo, world=True)
+        cmds.delete(temp_group)
 
     def create_render_cam(self):
         camera_distance = self.y_height * .41666
         card_cam = cmds.camera(name="{0}_camera".format(self.selected_geo), focalLength=100,
                                nearClipPlane=10, farClipPlane=camera_distance + 20, displayFilmGate=True,
-                               displayGateMask=True, overscan=1.1)[0]
+                               displayGateMask=True, displayResolution=True, overscan=1.1)[0]
         cmds.setAttr("{0}.displayCameraNearClip".format(card_cam), True)
         cmds.setAttr("{0}.displayCameraFarClip".format(card_cam), True)
         cmds.setAttr("{0}.displayCameraFrustum".format(card_cam), True)
@@ -201,11 +205,12 @@ class CardzClass(object):
                      cmds.getAttr("{0}.verticalFilmAperture".format(card_cam)) * self.render_aspect_ratio)
         cmds.setAttr("{0}.tz".format(card_cam), camera_distance)
         cmds.lookThru(card_cam)
+        self.card_cam = card_cam
 
     def camera_from_geo(self, *args):
         self.set_file_info_from_geo()
-        self.flip_geo_to_face_forward()
         self.create_render_cam()
+        self.world_align_card()
 
     def set_file_info_from_geo(self):
         selected_geo = cmds.ls(selection=True)
