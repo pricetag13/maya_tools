@@ -2,11 +2,18 @@
   <dictionary name="price">
     <words>
       <w>cardz</w>
+      <w>cmds</w>
       <w>ctrls</w>
       <w>filepath</w>
       <w>fullpath</w>
       <w>lamberts</w>
+      <w>shaders</w>
       <w>shortpath</w>
+      <w>tokenized</w>
+      <w>toon</w>
+      <w>toonify</w>
+      <w>toons</w>
+      <w>unreference</w>
     </words>
   </dictionary>
 </component>

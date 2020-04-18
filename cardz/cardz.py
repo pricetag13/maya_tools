@@ -187,7 +187,6 @@ class CardzClass(object):
         xform_bounding_box = cmds.xform(temp_group, query=True, boundingBox=True)
         center_pos = cmds.xform(temp_group, query=True, worldSpace=True, scalePivot=True)
         cmds.xform(temp_group, worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], 0])
-        # cmds.xform(temp_group, worldSpace=True, pivots=[center_pos[0], xform_bounding_box[1], center_pos[2]])
         cmds.move(temp_group, rotatePivotRelative=True, y=0)
         cmds.parent(self.card_cam, world=True)
         cmds.parent(self.selected_geo, world=True)
