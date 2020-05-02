@@ -10,6 +10,7 @@ class CenterStage(object):
     def __init__(self):
         self.center_stage_root_directory = r'C:\dev\maya_tools\center_stage'
         self.scale_scene = os.path.join(self.center_stage_root_directory, 'porchai_scale.ma')
+        self.camera_rig = os.path.join(self.center_stage_root_directory, 'center_stage_camera_rig.ma')
 
         self.center_stage_config = os.path.join(self.center_stage_root_directory, 'center_stage_config.txt')
         self.render_width = 0.0
@@ -23,7 +24,8 @@ class CenterStage(object):
                              ('Min Y', self.min_y),
                              ('Set Render Size',self.set_render_size),
                              ('Reference Scale Scene', self.reference_scale_scene),
-                             ('Remove Reference Scale Scene', self.remove_reference_scale_scene)
+                             ('Remove Reference Scale Scene', self.remove_reference_scale_scene),
+                             ('Import Camera Rig', self.import_camera_rig)
                              ]
 
     def set_initial_state(self):
@@ -45,9 +47,8 @@ class CenterStage(object):
         # with open(self.center_stage_config, 'w') as txtfile:
         #     json.dump(file_path, txtfile)
 
-    @staticmethod
-    def create_camera():
-        print ''
+    def import_camera_rig(self, *args):
+        cmds.file(self.camera_rig, i=True)
 
     def face_forward(self, *args):
         self.target_object_list = cmds.ls(selection=True)

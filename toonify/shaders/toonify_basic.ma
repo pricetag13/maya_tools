@@ -1,6 +1,6 @@
 //Maya ASCII 2020 scene
 //Name: toonify_basic.ma
-//Last modified: Sat, Apr 18, 2020 02:00:44 PM
+//Last modified: Sat, Apr 18, 2020 06:57:12 PM
 //Codeset: 1252
 requires maya "2020";
 requires -nodeType "aiOptions" -nodeType "aiAOVDriver" -nodeType "aiAOVFilter" -nodeType "aiToon"
@@ -11,7 +11,7 @@ fileInfo "product" "Maya 2020";
 fileInfo "version" "2020";
 fileInfo "cutIdentifier" "201911140446-42a737a01c";
 fileInfo "osv" "Microsoft Windows 10 Technical Preview  (Build 18363)\n";
-fileInfo "UUID" "FC6102A4-480D-CAB1-BE51-50900CA1B12A";
+fileInfo "UUID" "693F9775-4250-73B7-E2FB-8A8EAFA97A8C";
 fileInfo "license" "student";
 createNode transform -s -n "persp";
 	rename -uid "0249BA15-4072-896D-F475-1AB6C826981A";
@@ -85,6 +85,7 @@ createNode aiToon -n "toonify_basic_0_shader";
 	rename -uid "940C9B60-4465-8641-711B-688DBE572982";
 	addAttr -s false -ci true -sn "toonify_basic_00_shader_message" -ln "toonify_basic_00_shader_message" 
 		-at "message";
+	setAttr ".angle_threshold" 30;
 	setAttr ".base" 1;
 	setAttr ".emission_color" -type "float3" 0 0 0 ;
 createNode ramp -n "toonify_basic_0_ramp_baseTonemap";
@@ -94,7 +95,7 @@ createNode ramp -n "toonify_basic_0_ramp_baseTonemap";
 	setAttr ".in" 0;
 	setAttr -s 2 ".cel";
 	setAttr ".cel[0].ep" 0;
-	setAttr ".cel[0].ec" -type "float3" 0.065789476 0.065789476 0.065789476 ;
+	setAttr ".cel[0].ec" -type "float3" 0 0 0 ;
 	setAttr ".cel[1].ep" 0.17365269362926483;
 	setAttr ".cel[1].ec" -type "float3" 1 1 1 ;
 createNode shadingEngine -n "toonify_basic_0_SG";
@@ -106,25 +107,27 @@ createNode shadingEngine -n "toonify_basic_0_SG";
 createNode materialInfo -n "materialInfo1";
 	rename -uid "37B73A1C-45D5-E0FB-1002-C3B34C620787";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "1EF5FFEE-4096-5F88-BC32-958844739F70";
+	rename -uid "3B62437B-4352-CF84-9A95-619FCCD00343";
 	setAttr -s 3 ".lnk";
 	setAttr -s 3 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "0CFD0189-4E5B-3C55-EB35-469C96B31896";
+	rename -uid "50848C6A-439F-68DA-7D8E-A489BF94D97E";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "C1E64BCA-4600-077D-F174-9D88C6A95BCA";
+	rename -uid "2DD0BD1C-41D4-50E9-2C36-D0B2ABDCBFF9";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "8FFEF662-43CF-6600-4DE7-30A467E4BE10";
+	rename -uid "7C88C301-4786-81D9-F2E1-649869CF166E";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "4E5714C8-48B1-0458-66D2-C6A78ACADD17";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "21B8F492-47E1-BFF5-B592-59ABE4E7F60F";
+	rename -uid "D7EF0C0A-4AD7-2C80-1E75-FA8E95D92B7C";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "19A45E25-4B3F-EB0F-0FBA-6A9254E145B0";
 	setAttr ".g" yes;
 createNode aiOptions -s -n "defaultArnoldRenderOptions";
 	rename -uid "99AC8124-419F-476E-725B-298BA8F5191C";
+	addAttr -ci true -sn "ARV_options" -ln "ARV_options" -dt "string";
 	setAttr ".version" -type "string" "4.0.0";
+	setAttr ".ARV_options" -type "string" "Test Resolution=100%;Color Management.Gamma=1;Color Management.Exposure=0;Background.BG=BG Color;Background.Color=0 0 0;Background.Image=;Background.Scale=1 1;Background.Offset=0 0;Background.Apply Color Management=1;Foreground.Enable FG=0;Foreground.Image=;Foreground.Scale=1 1;Foreground.Offset=0 0;Foreground.Apply Color Management=1;";
 createNode aiAOVFilter -s -n "defaultArnoldFilter";
 	rename -uid "9A24D335-4602-7DA6-ECCC-FB8737AE4AA1";
 	setAttr ".ai_translator" -type "string" "gaussian";
@@ -183,23 +186,23 @@ createNode script -n "sceneConfigurationScriptNode";
 	setAttr ".b" -type "string" "playbackOptions -min 1 -max 120 -ast 1 -aet 200 ";
 	setAttr ".st" 6;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "BB6F199D-489D-65DA-E734-4CB9FBB5993C";
+	rename -uid "EA2533FB-4340-DB39-1822-F28C71C55382";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -1139.8809070861548 -776.19044534743909 ;
-	setAttr ".tgi[0].vh" -type "double2" 1126.7856695112746 342.85712923322461 ;
+	setAttr ".tgi[0].vl" -type "double2" -1138.6904309429838 -777.97615956219545 ;
+	setAttr ".tgi[0].vh" -type "double2" 1127.9761456544456 341.07141501846826 ;
 	setAttr -s 4 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" -285.71429443359375;
-	setAttr ".tgi[0].ni[0].y" 37.142856597900391;
-	setAttr ".tgi[0].ni[0].nvs" 18306;
-	setAttr ".tgi[0].ni[1].x" 395.71429443359375;
-	setAttr ".tgi[0].ni[1].y" -117.14286041259766;
-	setAttr ".tgi[0].ni[1].nvs" 18305;
-	setAttr ".tgi[0].ni[2].x" 88.571426391601563;
-	setAttr ".tgi[0].ni[2].y" -75.714286804199219;
-	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" -610.71429443359375;
-	setAttr ".tgi[0].ni[3].y" -349.76190185546875;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[0].x" 395.71429443359375;
+	setAttr ".tgi[0].ni[0].y" -117.14286041259766;
+	setAttr ".tgi[0].ni[0].nvs" 18305;
+	setAttr ".tgi[0].ni[1].x" -610.71429443359375;
+	setAttr ".tgi[0].ni[1].y" -349.76190185546875;
+	setAttr ".tgi[0].ni[1].nvs" 18304;
+	setAttr ".tgi[0].ni[2].x" -285.71429443359375;
+	setAttr ".tgi[0].ni[2].y" 37.142856597900391;
+	setAttr ".tgi[0].ni[2].nvs" 18306;
+	setAttr ".tgi[0].ni[3].x" 88.571426391601563;
+	setAttr ".tgi[0].ni[3].y" -75.714286804199219;
+	setAttr ".tgi[0].ni[3].nvs" 18305;
 select -ne :time1;
 	setAttr ".o" 1;
 	setAttr ".unw" 1;
@@ -257,13 +260,13 @@ connectAttr ":defaultArnoldDisplayDriver.msg" ":defaultArnoldRenderOptions.drive
 		 -na;
 connectAttr ":defaultArnoldFilter.msg" ":defaultArnoldRenderOptions.filt";
 connectAttr ":defaultArnoldDriver.msg" ":defaultArnoldRenderOptions.drvr";
-connectAttr "toonify_basic_0_ramp_baseTonemap.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
+connectAttr "toonify_basic_0_SG.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "toonify_basic_0_SG.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "toonify_basic_0_container.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "toonify_basic_0_shader.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "toonify_basic_0_ramp_baseTonemap.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "toonify_basic_0_container.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "toonify_basic_0_shader.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
 connectAttr "toonify_basic_0_SG.pa" ":renderPartition.st" -na;
 connectAttr "toonify_basic_0_shader.msg" ":defaultShaderList1.s" -na;
