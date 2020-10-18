@@ -72,7 +72,6 @@ class Toonify(object):
             new_name = node.replace('0', str(new_increment))
             renamed_node = cmds.rename(node, new_name)
             renamed_shader_network.append(renamed_node)
-        print renamed_shader_network, 'RENAMEEEEWDF'
 
         self.toon_shader = "{0}_{1}_{2}".format(container_tokenized_list[0], container_tokenized_list[1], new_increment)
         self.toon_shading_engine = [node for node in renamed_shader_network if 'final_SG' in node][0]
@@ -96,15 +95,8 @@ class Toonify(object):
                 new_aov = cmds.createNode('aiAOV', name=required_aov[2])
                 cmds.setAttr(new_aov + '.name', required_aov[1], type='string')
                 cmds.connectAttr(new_aov + '.message', 'defaultArnoldRenderOptions.aovList', nextAvailable=True)
-            # # new_aov_number = new_aov_number + 1
-            # new_aov = aovs.AOVInterface().addAOV(required_aov[1])
-            # new_aov_number = [character for character in str(new_aov) if character.isdigit()][0]
-            # cmds.connectAttr('{0}.outColor'.format(required_aov[0]), '{0}.aiCustomAOVs[{1}].aovInput'
-            #                  .format(self.toon_shading_engine, new_aov_number), force=True)
-
-    # def get_aovs_in_scene(self):
-    #     scene_aovs = (aovs.AOVInterface().getAOVNodes(names=True))
-    #     return scene_aovs
+                cmds.connectAttr('defaultArnoldDriver.message', new_aov + '.outputs[0].driver')
+                cmds.connectAttr('defaultArnoldFilter.message', new_aov + '.outputs[0].filter')
 
     @staticmethod
     def get_required_aov_list_from_shading_group(shading_group):
@@ -119,7 +111,6 @@ class Toonify(object):
             aov_name = aov_token[3:]
             aov = 'aiAOV_{0}'.format(aov_name)
             required_aov_list.append((aov_plug, aov_name, aov))
-        print required_aov_list, 'REQLIST!!!!'
         return required_aov_list
 
 
