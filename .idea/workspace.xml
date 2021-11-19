@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ac153906-2e6a-4271-a29c-f75a37e1be06" name="Default" comment="Adding Maya to Godot files" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="maya_tools" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>ROOT</find>
+      <find>file_node</find>
+      <find>render_aspect_ratio</find>
+      <find>center_stage</find>
+      <find>toonify_config_directory</find>
+      <find>toonify_scroll_list</find>
+      <find>args</find>
+      <find>add</find>
+      <find>&quot;&quot;&quot;</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>tunify</replace>
+      <replace>/{0}/</replace>
+      <replace>'</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/maya_to_godot/anim_utils.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/2pt5D_workflow/2pt5.py" />
+        <option value="$PROJECT_DIR$/2pt5d/2pt5.py" />
+        <option value="$PROJECT_DIR$/2pt5d/two_point_five.py" />
+        <option value="$PROJECT_DIR$/two_point_five_rig/test.py" />
+        <option value="$PROJECT_DIR$/two_point_five_rig/undo_dec.py" />
+        <option value="$PROJECT_DIR$/two_point_five_rig/two_point_five.py" />
+        <option value="$PROJECT_DIR$/VFS_proxy_binder.py" />
+        <option value="$USER_HOME$/OneDrive/Documents/maya/2016/prefs/shelves/shelf_Rigging1.mel" />
+        <option value="$PROJECT_DIR$/cardz/cardz_config.txt" />
+        <option value="$PROJECT_DIR$/cardz/cardz.py" />
+        <option value="$PROJECT_DIR$/ribbonz/ribbonz.py" />
+        <option value="$PROJECT_DIR$/centre_stage/center_stage.py" />
+        <option value="$PROJECT_DIR$/center_stage/center_stage.py" />
+        <option value="$PROJECT_DIR$/toonify/toonify.py" />
+        <option value="$PROJECT_DIR$/lookAt/python/__init__.py" />
+        <option value="$PROJECT_DIR$/lookAt/python/assembly/lookat_assembly.py" />
+        <option value="$PROJECT_DIR$/advanced_lookAt/prefab_assembly/lookat_assembly.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
+        <option value="$PROJECT_DIR$/maya_to_godot/game_skeleton.py" />
+        <option value="D:/working_projects/char_anim_tests/clips/clip_clop.tres" />
+        <option value="$PROJECT_DIR$/maya_to_godot/anim_export.py" />
+        <option value="$PROJECT_DIR$/maya_to_godot/anim_utils.py" />
+        <option value="$PROJECT_DIR$/maya_to_godot/ui/main.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1393" />
+    <option name="width" value="2332" />
+    <option name="height" value="1417" />
+  </component>
+  <component name="ProjectId" id="1zhhXdNHkg5VtsxAbOvA0lnp7t6" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="maya_tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="maya_tools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="maya_tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="maya_tools" type="462c0819:PsiDirectoryNode" />
+              <item name="maya_to_godot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="maya_tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="maya_tools" type="462c0819:PsiDirectoryNode" />
+              <item name="maya_to_godot" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="maya_tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="maya_tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
+    <property name="last_opened_file_path" value="D:/Program Files/Autodesk/Maya2022/devkit/other/Python27" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/two_point_five_rig/two_point_five.py" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\maya_tools\maya_to_godot\ui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\maya_tools\maya_to_godot" />
+      <recent name="C:\dev\maya_tools\maya_to_godot\ui" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="maya_tools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ac153906-2e6a-4271-a29c-f75a37e1be06" name="Default" comment="" />
+      <created>1484371623164</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1484371623164</updated>
+    </task>
+    <task id="LOCAL-00001" summary="testing">
+      <created>1484371699509</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1484371699509</updated>
+    </task>
+    <task id="LOCAL-00002" summary="testing">
+      <created>1484371837814</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1484371837814</updated>
+    </task>
+    <task id="LOCAL-00003" summary="testing">
+      <created>1484371903075</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1484371903075</updated>
+    </task>
+    <task id="LOCAL-00004" summary="testing">
+      <created>1484375511416</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1484375511416</updated>
+    </task>
+    <task id="LOCAL-00005" summary="testing">
+      <created>1484376168164</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1484376168164</updated>
+    </task>
+    <task id="LOCAL-00006" summary="testing">
+      <created>1484376186507</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1484376186507</updated>
+    </task>
+    <task id="LOCAL-00007" summary="testing">
+      <created>1484376346280</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1484376346280</updated>
+    </task>
+    <task id="LOCAL-00008" summary="testing">
+      <created>1484377426223</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1484377426223</updated>
+    </task>
+    <task id="LOCAL-00009" summary="testing">
+      <created>1484378468194</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1484378468194</updated>
+    </task>
+    <task id="LOCAL-00010" summary="testing">
+      <created>1484460695603</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1484460695603</updated>
+    </task>
+    <task id="LOCAL-00011" summary="testing">
+      <created>1484533482181</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1484533482181</updated>
+    </task>
+    <task id="LOCAL-00012" summary="testing">
+      <created>1484810514534</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1484810514534</updated>
+    </task>
+    <task id="LOCAL-00013" summary="testing">
+      <created>1484978847555</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1484978847555</updated>
+    </task>
+    <task id="LOCAL-00014" summary="testing">
+      <created>1484982875809</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1484982875809</updated>
+    </task>
+    <task id="LOCAL-00015" summary="testing">
+      <created>1484983561097</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1484983561097</updated>
+    </task>
+    <task id="LOCAL-00016" summary="testing">
+      <created>1485064904466</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1485064904466</updated>
+    </task>
+    <task id="LOCAL-00017" summary="testing">
+      <created>1485104360522</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1485104360522</updated>
+    </task>
+    <task id="LOCAL-00018" summary="testing">
+      <created>1485409240175</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1485409240175</updated>
+    </task>
+    <task id="LOCAL-00019" summary="testing">
+      <created>1489897899945</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1489897899945</updated>
+    </task>
+    <task id="LOCAL-00020" summary="testing">
+      <created>1489938175197</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1489938175197</updated>
+    </task>
+    <task id="LOCAL-00021" summary="testing">
+      <created>1489939154520</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1489939154520</updated>
+    </task>
+    <task id="LOCAL-00022" summary="testing">
+      <created>1489944813371</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1489944813371</updated>
+    </task>
+    <task id="LOCAL-00023" summary="testing">
+      <created>1489956681676</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1489956681676</updated>
+    </task>
+    <task id="LOCAL-00024" summary="testing">
+      <created>1489956845265</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1489956845265</updated>
+    </task>
+    <task id="LOCAL-00025" summary="testing">
+      <created>1489967844174</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1489967844174</updated>
+    </task>
+    <task id="LOCAL-00026" summary="testing">
+      <created>1490045230920</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1490045230920</updated>
+    </task>
+    <task id="LOCAL-00027" summary="testing">
+      <created>1490046945495</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1490046945495</updated>
+    </task>
+    <task id="LOCAL-00028" summary="testing">
+      <created>1490079379477</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1490079379477</updated>
+    </task>
+    <task id="LOCAL-00029" summary="testing">
+      <created>1491373063751</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1491373063752</updated>
+    </task>
+    <task id="LOCAL-00030" summary="testing">
+      <created>1491543573412</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1491543573412</updated>
+    </task>
+    <task id="LOCAL-00031" summary="testing">
+      <created>1491885658176</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1491885658176</updated>
+    </task>
+    <task id="LOCAL-00032" summary="testing">
+      <created>1491972330683</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1491972330683</updated>
+    </task>
+    <task id="LOCAL-00033" summary="testing">
+      <created>1491975873380</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1491975873380</updated>
+    </task>
+    <task id="LOCAL-00034" summary="testing">
+      <created>1535090978922</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1535090978922</updated>
+    </task>
+    <task id="LOCAL-00035" summary="testing">
+      <created>1535091360468</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1535091360468</updated>
+    </task>
+    <task id="LOCAL-00036" summary="testing">
+      <created>1535930341782</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1535930341782</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Adding camera from geo">
+      <created>1535930800354</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1535930800354</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Adding camera from geo">
+      <created>1535931651607</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1535931651607</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Adding camera from geo">
+      <created>1535933121554</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1535933121554</updated>
+    </task>
+    <task id="LOCAL-00040" summary="adding toonify">
+      <created>1587253849956</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1587253849956</updated>
+    </task>
+    <task id="LOCAL-00041" summary="expanding toonify">
+      <created>1588443554029</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1588443554029</updated>
+    </task>
+    <task id="LOCAL-00042" summary="adding lookAt">
+      <created>1603041334240</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1603041334240</updated>
+    </task>
+    <task id="LOCAL-00043" summary="adding lookAt">
+      <created>1603042420519</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1603042420519</updated>
+    </task>
+    <task id="LOCAL-00044" summary="adding lookAt">
+      <created>1637285616050</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1637285616050</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1393" y="0" width="2332" height="1417" extended-state="0" />
+    <layout>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.19630282" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49955985" weight="0.32866043" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5004401" side_tool="true" visible="true" weight="0.33021808" />
+      <window_info anchor="bottom" id="Python Console" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="MayaLog" order="11" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Structure" order="3" visible="true" weight="0.15492958" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="testing" />
+    <MESSAGE value="Adding camera from geo" />
+    <MESSAGE value="adding toonify" />
+    <MESSAGE value="expanding toonify" />
+    <MESSAGE value="adding lookAt" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding lookAt" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/scripts/jz-tools/jz_utils/jz_utils.py</url>
+          <line>71</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/two_point_five_rig/test.py" />
+    <entry file="file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/scripts/cometSaveWeights.mel">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6579">
+          <caret line="387" selection-start-line="387" selection-end-line="388" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/shelves/shelf_Rigging1.mel">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/two_point_five_rig/undo_dec.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VFS_proxy_binder.py" />
+    <entry file="file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/scripts/jz-tools/rigging_scripts_toolbar/rig_scripts_toolbar.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/scripts/jz-tools/jz_utils/CurveInTheCenterOfAPipe.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cardz/cardz_config.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ribbonz/ribbonz.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/centre_stage/center_stage.py" />
+    <entry file="file://$PROJECT_DIR$/center_stage/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cardz/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lookAt/python/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/lookAt/python/assembly/lookat_assembly.py" />
+    <entry file="file://$PROJECT_DIR$/advanced_lookAt/python/lookAt/assembly/lookat_assembly.py" />
+    <entry file="file://$PROJECT_DIR$/advanced_lookAt/python/lookAt/prefab_assembly/lookat_assembly.py" />
+    <entry file="file://$PROJECT_DIR$/advanced_lookAt/prefab_assembly/lookat_assembly.py" />
+    <entry file="file://$PROJECT_DIR$/two_point_five_rig/two_point_five.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7429">
+          <caret line="442" column="91" selection-start-line="442" selection-start-column="8" selection-end-line="442" selection-end-column="91" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cardz/cardz.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="5" selection-start-line="5" selection-end-line="13" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1535933165212" expanded="true" signature="103:108" ph="..." />
+            <marker date="1535933165212" expanded="true" signature="1693:1702" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/center_stage/center_stage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="17" selection-start-line="2" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/scripts/jz-tools/jz_utils/jz_utils.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/toonify/toonify.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="12" column="66" selection-start-line="11" selection-start-column="4" selection-end-line="12" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1588465715177" expanded="true" signature="1204:1208" ph="..." />
+            <marker date="1588465715177" expanded="true" signature="4277:4282" ph="..." />
+            <marker date="1588465715177" expanded="true" signature="5083:5443" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/maya_to_godot/game_skeleton.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/working_projects/char_anim_tests/clips/270_10_frames.tres">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="75" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/working_projects/char_anim_tests/clips/five_frames.tres">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/working_projects/char_anim_tests/clips/clip_clop.tres">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="56" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maya_to_godot/anim_export.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maya_to_godot/anim_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maya_to_godot/ui/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../maya_anim_tools/advanced_lookAt/1.00.00/gui/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maya_to_godot/ui/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

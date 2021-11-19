@@ -1,0 +1,12 @@
+zoma
+zoma_ac_lf_eye_aim_att
+zoma_ac_rt_eye_aim_att
+zoma_fk_cn_head
+zoma_base_motion
+-65, -65, 60, 65
+
+dobby
+lEyeAim
+rEyeAim
+FKHead_M
+Main

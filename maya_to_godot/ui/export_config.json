@@ -1,0 +1,15 @@
+{
+    "GameSkeleton": "Skeleton",
+    "ClipName": "nori_run_female",
+    "OutputDirectory": "D:/working_projects/nori",
+    "StartFrame": "0",
+    "EndFrame": "19",
+    "FPS": "",
+    "FileExtension": "tres",
+    "RigSkeleton": "DeformationSystem",
+    "RootControl": "Main",
+    "GamePrefix": "Game",
+    "ExportModelFBXDirectory": "D:/working_projects/nori",
+    "ModelName": "Nori",
+    "CurrentTab": 2
+}

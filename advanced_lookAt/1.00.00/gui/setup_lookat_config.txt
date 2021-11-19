@@ -1,0 +1,1 @@
+{"UpperRange": "-65", "OuterRange": "65", "RootControl": "zoma_base_motion", "LeftEyeRoot": "zoma_ac_lf_eye_aim_att", "HeadControl": "zoma_fk_cn_head", "VerticalAxis": "x", "RightEyeRoot": "zoma_ac_rt_eye_aim_att", "LowerRange": "60", "InnerRange": "-65", "HorizontalAxis": "y"}
