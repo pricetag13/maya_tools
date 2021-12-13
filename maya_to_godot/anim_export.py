@@ -39,6 +39,24 @@ class AnimExport(object):
         # Stores animation data to be written
         self.animation_data = {}
 
+        # Compare states
+        self.base_translation = (0.0, 0.0, 0.0)
+        self.base_rotation = (0.0, 0.0, 0.0, 1.0)
+        self.base_scale = (1.0, 1.0, 1.0)
+        
+        self.set_translation_dict = {}
+        self.trailing_translation_dict = {}
+
+        self.set_rotation_dict = {}
+        self.trailing_rotation_dict = {}
+
+        self.set_scale_dict = {}
+        self.trailing_scale_dict = {}
+
+        self.translation_tolerance = 0.00005
+        self.rotation_tolerance = 0.00000001
+        self.scale_tolerance = 0.005
+
     @staticmethod
     def get_boiler_plate(resource, length):
         boiler_plate = [
@@ -76,18 +94,88 @@ class AnimExport(object):
             self.animation_data["{0}:{1}".format(self.skeleton, transform)].append(real_pool_array)
 
         # Loop through timeline
-        for frame in range(self.start_frame, self.end_frame + 1):
-            current_fame = cmds.currentTime(frame)
+        for frame in range(self.start_frame, self.end_frame + 2):
+            current_frame = cmds.currentTime(frame)
             # Loop through transforms
             for key, data in self.animation_data.items():
                 transform = key.split(":")[1]
                 transform_data = anim_utils.get_transform_data(transform)
-                time = 1 / self.fps * current_fame
-                data[1] += (time,)
-                data[1] += (1,)
-                data[1] += transform_data["RelativeTranslate"]
-                data[1] += tuple(transform_data["RelativeQuaternion"])
-                data[1] += transform_data["Scale"]
+                set_time = 1 / self.fps * (current_frame - 1)
+                translation = transform_data["RelativeTranslate"]
+                rotation = tuple(transform_data["RelativeQuaternion"])
+                scale = transform_data["Scale"]
+
+                add_data = False
+
+                if frame == self.start_frame:
+                    self.trailing_translation_dict[key] = self.base_translation
+                    self.set_translation_dict[key] = translation
+
+                    self.trailing_rotation_dict[key] = self.base_rotation
+                    self.set_rotation_dict[key] = rotation
+
+                    self.trailing_scale_dict[key] = self.base_scale
+                    self.set_scale_dict[key] = scale
+                    continue
+
+                translation_comparator = list(zip(self.trailing_translation_dict[key],
+                                                  self.set_translation_dict[key],
+                                                  translation))
+
+                rotation_comparator = list(zip(self.trailing_rotation_dict[key],
+                                               self.set_rotation_dict[key],
+                                               rotation))
+
+                scale_comparator = list(zip(self.trailing_scale_dict[key],
+                                            self.set_scale_dict[key],
+                                            scale))
+
+                rotation_change = False
+                scale_change = False
+
+                translation_change = self.compare_frames(comparator=translation_comparator,
+                                                         tolerance=self.translation_tolerance)
+
+                if translation_change:
+                    add_data = True
+                else:
+                    rotation_change = self.compare_frames(comparator=rotation_comparator,
+                                                          tolerance=self.rotation_tolerance)
+
+                if rotation_change:
+                    add_data = True
+                else:
+                    scale_change = self.compare_frames(comparator=scale_comparator, tolerance=self.scale_tolerance)
+
+                if scale_change:
+                    add_data = True
+
+                if add_data:
+                    set_data = (set_time, 1)
+                    set_data += self.set_translation_dict[key]
+                    set_data += self.set_rotation_dict[key]
+                    set_data += self.set_scale_dict[key]
+                    data[1] += set_data
+
+                self.trailing_translation_dict[key] = self.set_translation_dict[key]
+                self.trailing_rotation_dict[key] = self.set_rotation_dict[key]
+                self.trailing_scale_dict[key] = self.set_scale_dict[key]
+
+                self.set_translation_dict[key] = translation
+                self.set_rotation_dict[key] = rotation
+                self.set_scale_dict[key] = scale
+
+    @staticmethod
+    def compare_frames(comparator, tolerance):
+        """Return true if there is a change in frame value beyond specified tolerance"""
+        for compare_set in comparator:
+            trailing_min = compare_set[0] - tolerance
+            trailing_max = compare_set[0] + tolerance
+            next_min = compare_set[-1] - tolerance
+            next_max = compare_set[-1] + tolerance
+            set_value = compare_set[1]
+            if not trailing_min < set_value < trailing_max or not next_min < set_value < next_max:
+                return True
 
     def write_boiler_plate(self):
         boiler_plate = self.get_boiler_plate(self.resource, self.length_in_seconds)
@@ -111,7 +199,6 @@ class AnimExport(object):
         cmds.currentUnit(linear=self.scene_lengths)
 
     def export(self):
-        print("Exporting: {0}".format(self.output_file))
         self.set_units()
         self.collect_animation_data_from_scene()
         self.write_boiler_plate()

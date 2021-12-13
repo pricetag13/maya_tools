@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac153906-2e6a-4271-a29c-f75a37e1be06" name="Default" comment="Adding Maya to Godot files" />
+    <list default="true" id="ac153906-2e6a-4271-a29c-f75a37e1be06" name="Default" comment="Adding Maya to Godot files">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maya_to_godot/anim_export.py" beforeDir="false" afterPath="$PROJECT_DIR$/maya_to_godot/anim_export.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maya_to_godot/anim_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/maya_to_godot/anim_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maya_to_godot/ui/export_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/maya_to_godot/ui/export_config.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -126,9 +131,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ChangesTree.GroupingKeys" value="" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="D:/Program Files/Autodesk/Maya2022/devkit/other/Python27" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/two_point_five_rig/two_point_five.py" />
   </component>
   <component name="RecentsManager">
@@ -481,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637285616050</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Adding Maya to Godot files">
+      <created>1637286274570</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1637286274570</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -517,6 +530,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -532,7 +546,8 @@
     <MESSAGE value="adding toonify" />
     <MESSAGE value="expanding toonify" />
     <MESSAGE value="adding lookAt" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding lookAt" />
+    <MESSAGE value="Adding Maya to Godot files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding Maya to Godot files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -541,6 +556,11 @@
           <url>file://$USER_HOME$/OneDrive/Documents/maya/2016/prefs/scripts/jz-tools/jz_utils/jz_utils.py</url>
           <line>71</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/rigging_toolbox_3_0/MatchingCommands.py</url>
+          <line>5</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

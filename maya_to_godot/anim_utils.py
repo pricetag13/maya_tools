@@ -30,7 +30,7 @@ def get_timeline_info():
     else:
         print("No valid FPS specified.")
 
-    length_in_seconds = duration / fps
+    length_in_seconds = (end - start) / fps
 
     time_line_info["Start"] = int(start)
     time_line_info["End"] = int(end)
@@ -122,3 +122,24 @@ def transform_has_keys(transform):
 def get_current_selection():
     current_selection = cmds.ls(selection=True)
     return current_selection
+
+
+def get_nurbs_controls():
+    nurbs_curve_shapes = cmds.ls(type='nurbsCurve')
+    nurbs_curve_transforms = cmds.listRelatives(nurbs_curve_shapes, parent=True, path=True)
+    return nurbs_curve_transforms
+
+
+def delete_constant_curves():
+    for nurbs_control in get_nurbs_controls():
+        in_curves = cmds.listConnections(nurbs_control, source=True, destination=False, type="animCurve")
+        if in_curves:
+            for in_curve in in_curves:
+                value_change = cmds.keyframe(in_curve, query=True, valueChange=True, relative=True)
+                if not value_change:
+                    cmds.delete(in_curve)
+                if len(value_change) <= 1:
+                    cmds.delete(in_curve)
+                if len(value_change) == 2:
+                    if value_change[0] == value_change[1]:
+                        cmds.delete(in_curve)
